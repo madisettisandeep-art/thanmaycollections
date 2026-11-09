@@ -59,7 +59,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 py-12">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="relative h-14 w-56">
+            <div className="relative h-16 w-28 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.3)]">
               <Image
                 src="/images/logo.png"
                 alt="Thanmay Collections"

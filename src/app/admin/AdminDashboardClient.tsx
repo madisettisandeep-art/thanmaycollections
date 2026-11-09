@@ -250,7 +250,7 @@ export function AdminDashboardClient({
       {/* Admin Top Navigation */}
       <header className="bg-pure-white border-b border-border-soft px-4 sm:px-8 py-4 flex items-center justify-between sticky top-0 z-30 shadow-subtle">
         <div className="flex items-center gap-4">
-          <div className="relative h-10 w-36 sm:w-44">
+          <div className="relative h-12 w-20 sm:w-24 filter drop-shadow-[0_2px_6px_rgba(220,193,140,0.3)]">
             <Image src="/images/logo.png" alt="Thanmay Collections" fill className="object-contain object-left" />
           </div>
           <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-brand-pink8 text-brand-pink text-[11px] font-bold uppercase tracking-wider">

@@ -78,17 +78,17 @@ export function Header() {
               </button>
             </div>
 
-            {/* Official Brand Logo */}
+            {/* Official Brand Logo - Pure Transparent Logo Without Box */}
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="group flex items-center focus:outline-none">
-                <div className="relative h-12 sm:h-16 w-48 sm:w-64 transition-transform duration-300 group-hover:scale-[1.02]">
+              <Link href="/" className="group flex items-center focus:outline-none" aria-label="Thanmay Collections Home">
+                <div className="relative h-14 sm:h-20 w-24 sm:w-32 transition-all duration-300 group-hover:scale-105 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
                   <Image
                     src="/images/logo.png"
                     alt="Thanmay Collections - Elegance that celebrates tradition"
                     fill
                     priority
-                    sizes="(max-width: 640px) 192px, 256px"
-                    className="object-contain object-left sm:object-center"
+                    sizes="(max-width: 640px) 96px, 128px"
+                    className="object-contain object-left"
                   />
                 </div>
               </Link>
@@ -219,7 +219,7 @@ export function Header() {
           <div className="relative w-full max-w-xs bg-pure-white shadow-xl h-full flex flex-col z-10 overflow-y-auto">
             {/* Drawer Header */}
             <div className="p-4 border-b border-border-soft flex items-center justify-between">
-              <div className="relative h-10 w-36">
+              <div className="relative h-12 w-20 filter drop-shadow-[0_2px_6px_rgba(220,193,140,0.3)]">
                 <Image
                   src="/images/logo.png"
                   alt="Thanmay Collections"

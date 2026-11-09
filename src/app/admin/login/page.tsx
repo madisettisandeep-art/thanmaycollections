@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md bg-pure-white rounded-3xl border border-border-soft shadow-card p-8 sm:p-10 space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
-          <div className="relative h-14 w-48 mx-auto mb-3">
+          <div className="relative h-20 w-28 mx-auto mb-3 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
             <Image
               src="/images/logo.png"
               alt="Thanmay Collections"

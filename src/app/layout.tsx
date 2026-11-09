@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { CartProvider } from '@/lib/store/cart-store';
 import { WishlistProvider } from '@/lib/store/wishlist-store';
+import { ToastProvider } from '@/components/ui/Toast';
 import { AnnouncementBar } from '@/components/ui/AnnouncementBar';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
@@ -117,11 +118,13 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-soft-cream text-text-primary antialiased selection:bg-brand-pink7 selection:text-text-primary">
         <CartProvider>
           <WishlistProvider>
-            <AnnouncementBar />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <CartDrawer />
+            <ToastProvider>
+              <AnnouncementBar />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <CartDrawer />
+            </ToastProvider>
           </WishlistProvider>
         </CartProvider>
       </body>
