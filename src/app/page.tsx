@@ -321,7 +321,7 @@ export default async function HomePage() {
             { title: 'Weddings', desc: 'Grand Chokers & Haars', filter: 'Weddings', img: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80' },
             { title: 'Festivals', desc: 'Temple & Kasu Malas', filter: 'Festivals', img: 'https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&w=600&q=80' },
             { title: 'Sangeet & Parties', desc: 'Meenakari Jhumkas', filter: 'Parties', img: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80' },
-            { title: 'Pujas & Ceremonies', desc: 'Antique Gold Kadas', filter: 'Traditional', img: 'https://images.unsplash.com/photo-1611591475870-87779d714e8d?auto=format&fit=crop&w=600&q=80' },
+            { title: 'Pujas & Ceremonies', desc: 'Antique Gold Kadas', filter: 'Traditional', img: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?auto=format&fit=crop&w=600&q=80' },
             { title: 'Everyday Styling', desc: 'Anti-Tarnish Minimal', filter: 'Daily', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80' },
           ].map((item) => (
             <Link

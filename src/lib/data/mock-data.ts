@@ -24,7 +24,7 @@ export const INITIAL_CATEGORIES: Category[] = [
     name: 'Bangles',
     slug: 'bangles',
     description: 'Regal kada bangles, bridal chuda sets, and sleek antique gold-finish bangles.',
-    image_url: 'https://images.unsplash.com/photo-1611591475870-87779d714e8d?auto=format&fit=crop&w=800&q=80',
+    image_url: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?auto=format&fit=crop&w=800&q=80',
     display_order: 3,
     is_active: true,
   },
@@ -221,7 +221,7 @@ export const INITIAL_PRODUCTS: Product[] = [
       {
         id: 'img-005-1',
         product_id: 'prod-005',
-        image_path: 'https://images.unsplash.com/photo-1611591475870-87779d714e8d?auto=format&fit=crop&w=1200&q=85',
+        image_path: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?auto=format&fit=crop&w=1200&q=85',
         alt_text: 'Royal Jadau Openable Kada Bangle Pair',
         display_order: 1,
       },
@@ -351,7 +351,7 @@ export const INITIAL_PRODUCTS: Product[] = [
       {
         id: 'img-010-1',
         product_id: 'prod-010',
-        image_path: 'https://images.unsplash.com/photo-1611591475870-87779d714e8d?auto=format&fit=crop&w=1200&q=85',
+        image_path: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?auto=format&fit=crop&w=1200&q=85',
         alt_text: 'Four-Leaf Clover Delicate Chain Bracelet',
         display_order: 1,
       },
@@ -407,7 +407,7 @@ export const INSTAGRAM_POSTS = [
   },
   {
     id: 'ig-4',
-    image_url: 'https://images.unsplash.com/photo-1611591475870-87779d714e8d?auto=format&fit=crop&w=600&q=80',
+    image_url: 'https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?auto=format&fit=crop&w=600&q=80',
     caption: 'Floral Jadau bangles with micro gold polish and screw locks 💫 #BanglesCollection',
     post_url: 'https://www.instagram.com/newthanmay_collections/',
   },
