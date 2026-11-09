@@ -81,13 +81,14 @@ export function Header() {
             {/* Official Brand Logo - Pure Transparent Logo Without Box */}
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="group flex items-center focus:outline-none" aria-label="Thanmay Collections Home">
-                <div className="relative h-14 sm:h-20 w-24 sm:w-32 transition-all duration-300 group-hover:scale-105 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
+                <div className="relative h-16 sm:h-20 w-32 sm:w-44 transition-all duration-300 group-hover:scale-105 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
                   <Image
-                    src="/images/logo.png"
+                    src="/images/thanmay-logo-transparent.png?v=3"
                     alt="Thanmay Collections - Elegance that celebrates tradition"
                     fill
                     priority
-                    sizes="(max-width: 640px) 96px, 128px"
+                    unoptimized
+                    sizes="(max-width: 640px) 128px, 176px"
                     className="object-contain object-left"
                   />
                 </div>
@@ -219,11 +220,12 @@ export function Header() {
           <div className="relative w-full max-w-xs bg-pure-white shadow-xl h-full flex flex-col z-10 overflow-y-auto">
             {/* Drawer Header */}
             <div className="p-4 border-b border-border-soft flex items-center justify-between">
-              <div className="relative h-12 w-20 filter drop-shadow-[0_2px_6px_rgba(220,193,140,0.3)]">
+              <div className="relative h-14 w-28 filter drop-shadow-[0_2px_6px_rgba(220,193,140,0.3)]">
                 <Image
-                  src="/images/logo.png"
+                  src="/images/thanmay-logo-transparent.png?v=3"
                   alt="Thanmay Collections"
                   fill
+                  unoptimized
                   className="object-contain object-left"
                 />
               </div>

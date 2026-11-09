@@ -10,14 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          pink: "#FF7C8A",
-          pink2: "#FF8694",
-          pink3: "#FF909E",
-          pink4: "#FF9AA8",
-          pink5: "#FFA4B2",
-          pink6: "#FFAEBC",
-          pink7: "#FFB8C6",
-          pink8: "#FFC2D0",
+          pink: "#5F143F",
+          pink2: "#691E49",
+          pink3: "#732853",
+          pink4: "#7D325D",
+          pink5: "#873C67",
+          pink6: "#914671",
+          pink7: "#9B507B",
+          pink8: "#A55A85",
+          primary: "#5F143F",
+          accent: "#691E49",
+          deep: "#5F143F",
         },
         gold: {
           DEFAULT: "#E8D5A8",
@@ -34,7 +37,7 @@ const config: Config = {
           secondary: "#88777D",
         },
         border: {
-          soft: "#F3DDE1",
+          soft: "#EBD8E2",
         },
       },
       fontFamily: {
@@ -43,9 +46,9 @@ const config: Config = {
         sans: ["var(--font-inter)", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
       },
       boxShadow: {
-        subtle: "0 4px 20px -2px rgba(255, 124, 138, 0.08)",
+        subtle: "0 4px 20px -2px rgba(95, 20, 63, 0.08)",
         card: "0 10px 30px -4px rgba(64, 52, 58, 0.06)",
-        float: "0 20px 40px -6px rgba(255, 124, 138, 0.15)",
+        float: "0 20px 40px -6px rgba(95, 20, 63, 0.15)",
         gold: "0 4px 20px -2px rgba(220, 193, 140, 0.25)",
       },
       keyframes: {

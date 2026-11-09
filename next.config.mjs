@@ -23,6 +23,18 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      { source: '/necklace-sets', destination: '/category/necklace-sets' },
+      { source: '/earrings', destination: '/category/earrings' },
+      { source: '/bangles', destination: '/category/bangles' },
+      { source: '/bridal-jewellery', destination: '/category/bridal-jewellery' },
+      { source: '/temple-jewellery', destination: '/category/temple-jewellery' },
+      { source: '/kundan-jewellery', destination: '/category/kundan-jewellery' },
+      { source: '/daily-wear-jewellery', destination: '/category/daily-wear-jewellery' },
+      { source: '/traditional-jewellery', destination: '/category/traditional-jewellery' },
+    ];
+  },
   async headers() {
     return [
       {

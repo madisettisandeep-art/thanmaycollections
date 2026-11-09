@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --brand-pink: #FF7C8A;
-  --brand-pink-2: #FF8694;
-  --brand-pink-3: #FF909E;
-  --brand-pink-4: #FF9AA8;
-  --brand-pink-5: #FFA4B2;
-  --brand-pink-6: #FFAEBC;
-  --brand-pink-7: #FFB8C6;
-  --brand-pink-8: #FFC2D0;
+  --brand-pink: #5F143F;
+  --brand-pink-2: #691E49;
+  --brand-pink-3: #732853;
+  --brand-pink-4: #7D325D;
+  --brand-pink-5: #873C67;
+  --brand-pink-6: #914671;
+  --brand-pink-7: #9B507B;
+  --brand-pink-8: #A55A85;
 
   --champagne-gold: #E8D5A8;
   --champagne-gold-dark: #DCC18C;
@@ -23,7 +23,7 @@
 
   --text-primary: #40343A;
   --text-secondary: #88777D;
-  --border-soft: #F3DDE1;
+  --border-soft: #EBD8E2;
 
   --font-cormorant: 'Cormorant Garamond', Georgia, serif;
   --font-playfair: 'Playfair Display', Georgia, serif;
@@ -58,12 +58,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FFB8C6;
+  background: #9B507B;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF9AA8;
+  background: #5F143F;
 }
 
 /* Luxury Accent Helpers */
@@ -74,17 +74,17 @@
 }
 
 .text-pink-gradient {
-  background: linear-gradient(135deg, #FF7C8A 0%, #FF909E 100%);
+  background: linear-gradient(135deg, #5F143F 0%, #7D325D 50%, #9B507B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .bg-luxury-pattern {
   background-color: #FFF9F2;
-  background-image: radial-gradient(#F3DDE1 0.75px, transparent 0.75px);
+  background-image: radial-gradient(#EBD8E2 0.75px, transparent 0.75px);
   background-size: 24px 24px;
 }
 
 .bg-pink-soft-gradient {
-  background: linear-gradient(180deg, #FFF5E9 0%, #FFF9F2 50%, #FFB8C6 100%);
+  background: linear-gradient(180deg, #FFF5E9 0%, #FFF9F2 50%, #A55A85 100%);
 }

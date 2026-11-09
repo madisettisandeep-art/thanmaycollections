@@ -9,7 +9,7 @@ import { Footer } from '@/components/ui/Footer';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 
 export const viewport: Viewport = {
-  themeColor: '#FF7C8A',
+  themeColor: '#5F143F',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,

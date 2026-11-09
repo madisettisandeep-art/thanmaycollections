@@ -23,8 +23,8 @@ function OrderSuccessContent() {
   return (
     <div className="max-w-xl mx-auto px-4 py-16 sm:py-24 text-center space-y-8 animate-fadeIn">
       {/* Brand logo */}
-      <div className="relative h-16 w-24 mx-auto filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
-        <Image src="/images/logo.png" alt="Thanmay Collections" fill className="object-contain" />
+      <div className="relative h-18 w-36 mx-auto filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
+        <Image src="/images/thanmay-logo-transparent.png?v=3" alt="Thanmay Collections" fill unoptimized className="object-contain" />
       </div>
 
       <div className="w-16 h-16 rounded-full bg-green-50 border border-green-200 mx-auto flex items-center justify-center text-green-600 shadow-sm">

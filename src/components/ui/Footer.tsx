@@ -59,11 +59,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 py-12">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="relative h-16 w-28 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.3)]">
+            <div className="relative h-16 sm:h-20 w-32 sm:w-40 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.3)]">
               <Image
-                src="/images/logo.png"
+                src="/images/thanmay-logo-transparent.png?v=3"
                 alt="Thanmay Collections"
                 fill
+                unoptimized
                 className="object-contain object-left"
               />
             </div>

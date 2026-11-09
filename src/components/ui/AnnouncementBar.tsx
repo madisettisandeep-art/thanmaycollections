@@ -20,14 +20,14 @@ export function AnnouncementBar({
   if (!isVisible) return null;
 
   return (
-    <div className="relative bg-brand-pink8 text-text-primary border-b border-border-soft text-xs sm:text-sm py-2 px-4 transition-all">
+    <div className="relative bg-brand-pink text-pure-white border-b border-brand-pink2/40 text-xs sm:text-sm py-2.5 px-4 transition-all shadow-sm">
       <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 text-center font-medium">
-        <Sparkles className="w-3.5 h-3.5 text-brand-pink flex-shrink-0 animate-pulse" />
-        <span className="tracking-wide">{message}</span>
+        <Sparkles className="w-3.5 h-3.5 text-gold flex-shrink-0 animate-pulse" />
+        <span className="tracking-wide text-cream-warm">{message}</span>
         {linkText && linkHref && (
           <Link
             href={linkHref}
-            className="hidden sm:inline-flex items-center font-semibold text-brand-pink hover:text-brand-pink2 underline underline-offset-4 ml-1 transition-colors"
+            className="hidden sm:inline-flex items-center font-semibold text-gold-light hover:text-pure-white underline underline-offset-4 ml-1 transition-colors"
           >
             {linkText} &rarr;
           </Link>
@@ -35,7 +35,7 @@ export function AnnouncementBar({
       </div>
       <button
         onClick={() => setIsVisible(false)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary p-1 rounded-full transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-cream-warm/70 hover:text-pure-white p-1 rounded-full transition-colors"
         aria-label="Close announcement bar"
       >
         <X className="w-3.5 h-3.5" />
