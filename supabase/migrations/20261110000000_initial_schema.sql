@@ -144,6 +144,33 @@ CREATE TABLE IF NOT EXISTS public.contact_enquiries (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- 10. HERO BANNERS TABLE
+CREATE TABLE IF NOT EXISTS public.hero_banners (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR(200) NOT NULL,
+    subtitle TEXT,
+    badge VARCHAR(80),
+    button_text VARCHAR(80) DEFAULT 'Explore Collection',
+    button_link VARCHAR(255) DEFAULT '/shop',
+    image_url TEXT NOT NULL,
+    display_order INTEGER NOT NULL DEFAULT 1,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 11. CINEMA SCROLL ITEMS TABLE
+CREATE TABLE IF NOT EXISTS public.cinema_scroll_items (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR(200) NOT NULL,
+    subtitle TEXT,
+    collection_name VARCHAR(120) DEFAULT 'Artisan Collection',
+    image_url TEXT NOT NULL,
+    link_url VARCHAR(255) NOT NULL DEFAULT '/shop',
+    display_order INTEGER NOT NULL DEFAULT 1,
+    is_active BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- Triggers for updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
