@@ -98,7 +98,7 @@
 .animate-announcement-ticker {
   display: flex;
   width: max-content;
-  animation: announcementMarquee 28s linear infinite;
+  animation: announcementMarquee 65s linear infinite;
 }
 
 .animate-announcement-ticker:hover {
