@@ -27,6 +27,8 @@ import {
   MessageCircle,
   Film,
   SlidersHorizontal,
+  Key,
+  Lock,
 } from 'lucide-react';
 import { Product, Category, Order, InventoryLog, AuditLog, ContactEnquiry, OrderStatus, HeroBanner, CinemaScrollItem } from '@/types';
 import { formatPrice } from '@/lib/utils/formatters';
@@ -54,8 +56,17 @@ export function AdminDashboardClient({
 }: AdminDashboardClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'products' | 'orders' | 'categories' | 'inventory' | 'hero' | 'cinema' | 'enquiries' | 'audit'
+    'overview' | 'products' | 'orders' | 'categories' | 'inventory' | 'hero' | 'cinema' | 'enquiries' | 'security' | 'audit'
   >('overview');
+
+  // Password Management State
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [passwordStatus, setPasswordStatus] = useState<{ success?: boolean; message?: string } | null>(null);
+  const [passwordLoading, setPasswordLoading] = useState(false);
 
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [orders, setOrders] = useState<Order[]>(initialOrders);
@@ -160,6 +171,45 @@ export function AdminDashboardClient({
       }
     } catch {
       alert('Error updating order status');
+    }
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordStatus(null);
+    if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+      setPasswordStatus({ success: false, message: 'Please fill in all password fields.' });
+      return;
+    }
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordStatus({ success: false, message: 'New password and confirmation do not match.' });
+      return;
+    }
+    if (passwordForm.newPassword.length < 8) {
+      setPasswordStatus({ success: false, message: 'New password must be at least 8 characters long.' });
+      return;
+    }
+    setPasswordLoading(true);
+    try {
+      const res = await fetch('/api/admin/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentPassword: passwordForm.currentPassword,
+          newPassword: passwordForm.newPassword,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPasswordStatus({ success: true, message: data.message || 'Password updated successfully! Keep your new password safe.' });
+        setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      } else {
+        setPasswordStatus({ success: false, message: data.error || 'Failed to update password.' });
+      }
+    } catch {
+      setPasswordStatus({ success: false, message: 'Network error while updating password.' });
+    } finally {
+      setPasswordLoading(false);
     }
   };
 
@@ -684,6 +734,7 @@ export function AdminDashboardClient({
             { id: 'hero', name: `Hero Banners (${heroBanners.length})`, icon: SlidersHorizontal },
             { id: 'cinema', name: `Cinema Scroll (${cinemaItems.length})`, icon: Film },
             { id: 'enquiries', name: `Enquiries (${enquiries.length})`, icon: Mail },
+            { id: 'security', name: 'Security & Password', icon: Lock },
             { id: 'audit', name: 'Security Audit Logs', icon: Shield },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -1418,6 +1469,119 @@ export function AdminDashboardClient({
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* =====================================================================
+            TAB 8: SECURITY & PASSWORD MANAGEMENT (HANDOVER)
+            ===================================================================== */}
+        {activeTab === 'security' && (
+          <div className="max-w-2xl mx-auto space-y-6">
+            <div className="p-6 sm:p-8 rounded-3xl bg-pure-white border border-border-soft shadow-subtle space-y-6">
+              <div className="flex items-start gap-4 pb-4 border-b border-border-soft">
+                <div className="w-12 h-12 rounded-2xl bg-brand-pink8 flex items-center justify-center text-brand-pink shrink-0">
+                  <Key className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-text-primary">Admin Password & Security</h3>
+                  <p className="text-xs sm:text-sm text-text-secondary mt-1">
+                    Store owners can safely update and own their administrative password at any time without developer assistance.
+                  </p>
+                </div>
+              </div>
+
+              {passwordStatus && (
+                <div
+                  className={`p-4 rounded-2xl text-xs sm:text-sm font-medium flex items-center gap-3 ${
+                    passwordStatus.success
+                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                      : 'bg-red-50 text-red-800 border border-red-200'
+                  }`}
+                >
+                  {passwordStatus.success ? (
+                    <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                  ) : (
+                    <AlertTriangle className="w-5 h-5 text-red-600 shrink-0" />
+                  )}
+                  <span>{passwordStatus.message}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleChangePassword} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
+                    Current Password *
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    value={passwordForm.currentPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                    placeholder="Enter existing password"
+                    className="w-full px-4 py-3 rounded-xl border border-border-soft text-sm focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent transition"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
+                    New Password *
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    minLength={8}
+                    value={passwordForm.newPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                    placeholder="Enter new strong password (min 8 characters)"
+                    className="w-full px-4 py-3 rounded-xl border border-border-soft text-sm focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent transition"
+                  />
+                  <span className="text-[11px] text-text-secondary mt-1 block">
+                    Use at least 8 characters with a mix of letters, numbers, and symbols.
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-text-primary uppercase tracking-wider mb-1.5">
+                    Confirm New Password *
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    value={passwordForm.confirmPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                    placeholder="Re-enter new password"
+                    className="w-full px-4 py-3 rounded-xl border border-border-soft text-sm focus:outline-none focus:ring-2 focus:ring-brand-pink focus:border-transparent transition"
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={passwordLoading}
+                    className="w-full py-3.5 px-6 rounded-xl bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-sm transition-all shadow-subtle flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+                  >
+                    <Lock className="w-4 h-4" />
+                    <span>{passwordLoading ? 'Updating Password...' : 'Update Admin Password'}</span>
+                  </button>
+                </div>
+              </form>
+
+              <div className="p-4 rounded-2xl bg-cream-warm/70 border border-champagne-gold/40 text-xs text-text-secondary space-y-1.5">
+                <div className="font-semibold text-text-primary flex items-center gap-1.5">
+                  <Shield className="w-4 h-4 text-brand-pink" />
+                  <span>Security & Handover Guidelines</span>
+                </div>
+                <p>
+                  • Changes take effect immediately. Once updated, use the new password on future logins.
+                </p>
+                <p>
+                  • Passwords are cryptographically hashed using PBKDF2 with SHA-512 and salt. Plain text passwords are never stored.
+                </p>
+                <p>
+                  • Store your new credentials safely. The login portal is hidden from all public pages and accessible only at <span className="font-mono text-brand-pink">/admin</span>.
+                </p>
+              </div>
             </div>
           </div>
         )}

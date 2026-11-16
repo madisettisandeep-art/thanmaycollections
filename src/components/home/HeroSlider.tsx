@@ -105,6 +105,7 @@ export function HeroSlider({ banners }: HeroSliderProps) {
                 <div className="flex flex-wrap items-center gap-4 pt-2 sm:pt-4">
                   <Link
                     href={banner.button_link || '/shop'}
+                    prefetch={true}
                     className="px-8 py-3.5 sm:py-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-sm sm:text-base rounded-full shadow-lg hover:shadow-xl flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 border border-gold/30"
                   >
                     <span className="text-white font-semibold">{banner.button_text || 'Explore Collection'}</span>
@@ -113,6 +114,7 @@ export function HeroSlider({ banners }: HeroSliderProps) {
 
                   <Link
                     href="/shop?sort=newest"
+                    prefetch={true}
                     className="px-7 py-3.5 sm:py-4 bg-white/95 hover:bg-white text-text-primary font-semibold text-sm sm:text-base rounded-full shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 border border-border-soft"
                   >
                     Shop New Arrivals

@@ -22,15 +22,18 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       setResults([]);
       return;
     }
-    const q = query.toLowerCase();
-    const filtered = INITIAL_PRODUCTS.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.product_code.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        (p.material && p.material.toLowerCase().includes(q))
-    );
-    setResults(filtered.slice(0, 6));
+    const timer = setTimeout(() => {
+      const q = query.toLowerCase();
+      const filtered = INITIAL_PRODUCTS.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.product_code.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          (p.material && p.material.toLowerCase().includes(q))
+      );
+      setResults(filtered.slice(0, 6));
+    }, 150);
+    return () => clearTimeout(timer);
   }, [query]);
 
   // Escape key closes modal

@@ -103,32 +103,32 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-text-secondary">
               <li>
-                <Link href="/" className="hover:text-brand-pink transition-colors">
+                <Link href="/" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/shop" className="hover:text-brand-pink transition-colors">
+                <Link href="/shop" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Shop All Collections
                 </Link>
               </li>
               <li>
-                <Link href="/shop?filter=new" className="hover:text-brand-pink transition-colors">
+                <Link href="/shop?filter=new" prefetch={true} className="hover:text-brand-pink transition-colors">
                   New Arrivals
                 </Link>
               </li>
               <li>
-                <Link href="/wishlist" className="hover:text-brand-pink transition-colors">
+                <Link href="/wishlist" prefetch={true} className="hover:text-brand-pink transition-colors">
                   My Wishlist
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-brand-pink transition-colors">
+                <Link href="/about" prefetch={true} className="hover:text-brand-pink transition-colors">
                   About Our Craft
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-brand-pink transition-colors">
+                <Link href="/contact" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Contact Concierge
                 </Link>
               </li>
@@ -142,37 +142,37 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-text-secondary">
               <li>
-                <Link href="/category/necklace-sets" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/necklace-sets" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Necklace Sets
                 </Link>
               </li>
               <li>
-                <Link href="/category/earrings" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/earrings" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Earrings & Jhumkas
                 </Link>
               </li>
               <li>
-                <Link href="/category/bangles" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/bangles" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Kada Bangles
                 </Link>
               </li>
               <li>
-                <Link href="/category/bridal-jewellery" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/bridal-jewellery" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Bridal Trousseau
                 </Link>
               </li>
               <li>
-                <Link href="/category/temple-jewellery" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/temple-jewellery" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Temple Jewellery
                 </Link>
               </li>
               <li>
-                <Link href="/category/kundan-jewellery" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/kundan-jewellery" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Polki Kundan Sets
                 </Link>
               </li>
               <li>
-                <Link href="/category/daily-wear-jewellery" className="hover:text-brand-pink transition-colors">
+                <Link href="/category/daily-wear-jewellery" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Daily Wear Anti-Tarnish
                 </Link>
               </li>
@@ -186,33 +186,28 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-text-secondary">
               <li>
-                <Link href="/care-guide" className="hover:text-brand-pink transition-colors">
+                <Link href="/care-guide" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Jewellery Care Guide
                 </Link>
               </li>
               <li>
-                <Link href="/policies/shipping" className="hover:text-brand-pink transition-colors">
+                <Link href="/policies/shipping" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Shipping & Dispatch
                 </Link>
               </li>
               <li>
-                <Link href="/policies/returns" className="hover:text-brand-pink transition-colors">
+                <Link href="/policies/returns" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Return & Exchange Policy
                 </Link>
               </li>
               <li>
-                <Link href="/policies/privacy" className="hover:text-brand-pink transition-colors">
+                <Link href="/policies/privacy" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Privacy Policy (DPDP Act)
                 </Link>
               </li>
               <li>
-                <Link href="/policies/terms" className="hover:text-brand-pink transition-colors">
+                <Link href="/policies/terms" prefetch={true} className="hover:text-brand-pink transition-colors">
                   Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="text-text-secondary/60 hover:text-brand-pink text-xs transition-colors">
-                  Admin Login
                 </Link>
               </li>
             </ul>

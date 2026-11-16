@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import { Category, Product } from '@/types';
 import { ProductCard } from '@/components/products/ProductCard';
 import { Search, SlidersHorizontal, RotateCcw, X, Check } from 'lucide-react';
@@ -21,6 +21,7 @@ export function ShopClient({
   initialSort = 'newest',
 }: ShopClientProps) {
   const [search, setSearch] = useState(initialSearch);
+  const deferredSearch = useDeferredValue(search);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [sortBy, setSortBy] = useState(initialSort);
   const [priceRange, setPriceRange] = useState<string>('all');
@@ -38,9 +39,9 @@ export function ShopClient({
   const filteredProducts = useMemo(() => {
     let list = [...initialProducts];
 
-    // Search query
-    if (search.trim()) {
-      const q = search.toLowerCase();
+    // Search query with deferred input for silky smooth typing performance
+    if (deferredSearch.trim()) {
+      const q = deferredSearch.toLowerCase();
       list = list.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||

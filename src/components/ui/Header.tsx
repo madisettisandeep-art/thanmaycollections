@@ -80,7 +80,7 @@ export function Header() {
 
             {/* Official Brand Logo - Pure Transparent Logo Without Box */}
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="group flex items-center focus:outline-none" aria-label="Thanmay Collections Home">
+              <Link href="/" prefetch={true} className="group flex items-center focus:outline-none" aria-label="Thanmay Collections Home">
                 <div className="relative h-16 sm:h-20 w-32 sm:w-44 transition-all duration-300 group-hover:scale-105 filter drop-shadow-[0_2px_8px_rgba(220,193,140,0.35)]">
                   <Image
                     src="/images/thanmay-logo-transparent.png?v=3"
@@ -134,6 +134,7 @@ export function Header() {
                           <Link
                             key={child.name}
                             href={child.href}
+                            prefetch={true}
                             className="block px-4 py-2.5 text-sm text-text-primary hover:bg-cream-warm hover:text-brand-pink transition-colors"
                           >
                             {child.name}
@@ -148,6 +149,7 @@ export function Header() {
                   <Link
                     key={link.name}
                     href={link.href}
+                    prefetch={true}
                     className={`relative text-sm font-medium tracking-wide transition-colors py-1 ${
                       isActive
                         ? 'text-brand-pink font-semibold'
@@ -178,6 +180,7 @@ export function Header() {
               {/* Wishlist Icon */}
               <Link
                 href="/wishlist"
+                prefetch={true}
                 className="relative p-2.5 rounded-full text-text-primary hover:text-brand-pink hover:bg-cream-warm transition-all"
                 aria-label="Wishlist"
               >
@@ -252,6 +255,7 @@ export function Header() {
                           <Link
                             key={child.name}
                             href={child.href}
+                            prefetch={true}
                             className="block px-3 py-2 text-sm font-medium text-text-primary hover:text-brand-pink hover:bg-cream-warm rounded-lg"
                           >
                             {child.name}
@@ -266,6 +270,7 @@ export function Header() {
                   <Link
                     key={link.name}
                     href={link.href}
+                    prefetch={true}
                     className="block px-3 py-2.5 text-base font-medium text-text-primary hover:text-brand-pink hover:bg-cream-warm rounded-lg transition-colors"
                   >
                     {link.name}
@@ -275,13 +280,7 @@ export function Header() {
             </div>
 
             {/* Mobile Drawer Footer */}
-            <div className="p-4 border-t border-border-soft bg-cream-warm/30 space-y-3">
-              <Link
-                href="/admin"
-                className="block text-center text-xs text-text-secondary hover:text-brand-pink py-1"
-              >
-                Admin Portal
-              </Link>
+            <div className="p-4 border-t border-border-soft bg-cream-warm/30 space-y-2">
               <div className="text-center text-xs text-text-secondary">
                 WhatsApp Orders: <span className="font-semibold text-text-primary">+91 98765 43210</span>
               </div>

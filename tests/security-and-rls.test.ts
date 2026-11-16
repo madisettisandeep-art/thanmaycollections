@@ -50,4 +50,36 @@ describe('Security and Price Integrity Tests', () => {
     const shipped = await updateOrderStatus(order.id, 'Shipped');
     expect(shipped.order_status).toBe('Shipped');
   });
+
+  it('should authenticate admin and support secure salted PBKDF2 password updating', async () => {
+    const { verifyAdmin, updateAdminPassword } = await import('../src/lib/auth/admin-auth');
+
+    // Test with correct initial password
+    const valid = verifyAdmin('admin@thanmaycollections.com', 'ThanmayLuxury2026!');
+    expect(valid).toBe(true);
+
+    // Test with incorrect password
+    const invalid = verifyAdmin('admin@thanmaycollections.com', 'WrongPassword123');
+    expect(invalid).toBe(false);
+
+    // Test password update with validation
+    const tooShort = updateAdminPassword('ThanmayLuxury2026!', 'short');
+    expect(tooShort.success).toBe(false);
+
+    // Update to new secure password
+    const newPass = 'ThanmayNewOwner2026#';
+    const updated = updateAdminPassword('ThanmayLuxury2026!', newPass);
+    expect(updated.success).toBe(true);
+
+    // Old password should now fail
+    const oldCheck = verifyAdmin('admin@thanmaycollections.com', 'ThanmayLuxury2026!');
+    expect(oldCheck).toBe(false);
+
+    // New password should succeed
+    const newCheck = verifyAdmin('admin@thanmaycollections.com', newPass);
+    expect(newCheck).toBe(true);
+
+    // Reset back for test idempotency
+    updateAdminPassword(newPass, 'ThanmayLuxury2026!');
+  });
 });

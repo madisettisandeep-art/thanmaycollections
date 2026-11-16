@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
+import { verifyAdmin } from '@/lib/auth/admin-auth';
 
 const LoginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(1, 'Password is required'),
 });
 
 export async function POST(req: NextRequest) {
@@ -12,10 +13,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { email, password } = LoginSchema.parse(body);
 
-    const configuredEmail = process.env.ADMIN_EMAIL || 'admin@thanmaycollections.com';
-    const configuredPassword = process.env.ADMIN_INITIAL_PASSWORD || 'ThanmayLuxury2026!';
+    const isValid = verifyAdmin(email, password);
 
-    if (email !== configuredEmail || password !== configuredPassword) {
+    if (!isValid) {
       return NextResponse.json(
         { success: false, message: 'Invalid administrative credentials' },
         { status: 401 }

@@ -73,11 +73,12 @@ export function ProductCard({ product }: ProductCardProps) {
         </button>
 
         {/* Product Image Area */}
-        <Link href={`/product/${product.slug}`} className="block relative aspect-square w-full overflow-hidden bg-cream-warm">
+        <Link href={`/product/${product.slug}`} prefetch={true} className="block relative aspect-square w-full overflow-hidden bg-cream-warm">
           <Image
             src={isHovered ? secondaryImage : primaryImage}
             alt={product.name}
             fill
+            loading="lazy"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
@@ -107,7 +108,7 @@ export function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
 
-            <Link href={`/product/${product.slug}`}>
+            <Link href={`/product/${product.slug}`} prefetch={true}>
               <h3 className="font-serif text-base sm:text-lg font-semibold text-text-primary hover:text-brand-pink transition-colors line-clamp-1">
                 {product.name}
               </h3>

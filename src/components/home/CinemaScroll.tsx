@@ -62,6 +62,7 @@ function CinemaCard({ item }: { item: CinemaScrollItem }) {
   return (
     <Link
       href={item.link_url || '/shop'}
+      prefetch={true}
       className="group relative block w-[280px] sm:w-[340px] md:w-[380px] aspect-[16/10] rounded-2xl overflow-hidden border border-border-soft bg-black shadow-card hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 flex-shrink-0"
     >
       {/* Background High-Res Visual */}

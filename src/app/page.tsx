@@ -94,12 +94,14 @@ export default async function HomePage() {
             <Link
               key={cat.id}
               href={`/category/${cat.slug}`}
+              prefetch={true}
               className="group relative rounded-2xl overflow-hidden border border-border-soft bg-white shadow-subtle hover:shadow-card transition-all duration-300 aspect-[3/4] flex flex-col justify-end p-5"
             >
               <Image
                 src={cat.image_url || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80'}
                 alt={cat.name}
                 fill
+                loading="lazy"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
@@ -139,6 +141,7 @@ export default async function HomePage() {
           </div>
           <Link
             href="/shop?sort=newest"
+            prefetch={true}
             className="text-xs sm:text-sm font-semibold text-brand-pink hover:text-brand-pink2 flex items-center gap-1.5 transition-colors"
           >
             <span>View All New Pieces</span>
@@ -199,6 +202,7 @@ export default async function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/category/bridal-jewellery"
+                  prefetch={true}
                   className="inline-flex items-center gap-2 px-7 py-3.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
                 >
                   <span className="text-white font-semibold">Explore Bridal Trousseau</span>
@@ -232,6 +236,7 @@ export default async function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/category/temple-jewellery"
+                  prefetch={true}
                   className="inline-flex items-center gap-2 px-7 py-3.5 bg-text-primary hover:bg-black text-white text-xs font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
                 >
                   <span className="text-white font-semibold">Discover Temple Jewellery</span>
@@ -277,9 +282,10 @@ export default async function HomePage() {
             <Link
               key={item.title}
               href={`/shop?search=${encodeURIComponent(item.filter)}`}
+              prefetch={true}
               className="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-cream-warm border border-border-soft shadow-subtle hover:shadow-card transition-all"
             >
-              <Image src={item.img} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              <Image src={item.img} alt={item.title} fill loading="lazy" sizes="(max-width: 640px) 50vw, 20vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
               <div className="absolute bottom-3 left-3 right-3 text-white">
                 <h4 className="font-serif text-base font-bold group-hover:text-gold-light transition-colors text-white">
@@ -322,6 +328,8 @@ export default async function HomePage() {
                 src={post.image_url}
                 alt={post.caption}
                 fill
+                loading="lazy"
+                sizes="(max-width: 640px) 50vw, 25vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-brand-pink/75 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center text-white">
@@ -403,12 +411,14 @@ export default async function HomePage() {
             <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/about"
+                prefetch={true}
                 className="px-8 py-3.5 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-xs rounded-full shadow-md hover:shadow-lg transition-all"
               >
                 <span className="text-white font-semibold">Read Our Full Story</span>
               </Link>
               <Link
                 href="/care-guide"
+                prefetch={true}
                 className="px-8 py-3.5 bg-white hover:bg-cream-warm text-text-primary font-semibold text-xs rounded-full border border-border-soft hover:border-brand-pink transition-all"
               >
                 Jewellery Care Guide
