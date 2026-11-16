@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, ShoppingBag, Eye, Sparkles } from 'lucide-react';
+import { Heart, ShoppingBag, Eye } from 'lucide-react';
 import { Product } from '@/types';
 import { formatPrice } from '@/lib/utils/formatters';
 import { useCart } from '@/lib/store/cart-store';
@@ -40,7 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Top Badges */}
         <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 pointer-events-none">
           {product.is_new_arrival && (
-            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-pure-white bg-brand-pink rounded-full shadow-sm">
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white bg-brand-pink rounded-full shadow-sm">
               New Arrival
             </span>
           )}
@@ -50,7 +50,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           )}
           {hasDiscount && (
-            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-pure-white bg-brand-pink2 rounded-full shadow-sm">
+            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white bg-brand-pink2 rounded-full shadow-sm">
               Save {discountPercent}%
             </span>
           )}
@@ -64,8 +64,8 @@ export function ProductCard({ product }: ProductCardProps) {
           }}
           className={`absolute top-3 right-3 z-10 p-2 rounded-full backdrop-blur-md transition-all duration-200 ${
             inWishlist
-              ? 'bg-brand-pink text-pure-white shadow-subtle'
-              : 'bg-pure-white/80 hover:bg-pure-white text-text-primary hover:text-brand-pink shadow-sm'
+              ? 'bg-brand-pink text-white shadow-subtle'
+              : 'bg-white/80 hover:bg-white text-text-primary hover:text-brand-pink shadow-sm'
           }`}
           aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
         >
@@ -138,7 +138,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={() => addItem(product, 1)}
               disabled={product.stock_quantity <= 0}
-              className="p-2 sm:px-3 sm:py-2 bg-cream-warm hover:bg-brand-pink text-text-primary hover:text-pure-white rounded-xl text-xs font-semibold border border-border-soft flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-50"
+              className="p-2 sm:px-3 sm:py-2 bg-cream-warm hover:bg-brand-pink text-text-primary hover:text-white rounded-xl text-xs font-semibold border border-border-soft flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-50"
               aria-label="Add to cart"
             >
               <ShoppingBag className="w-4 h-4" />

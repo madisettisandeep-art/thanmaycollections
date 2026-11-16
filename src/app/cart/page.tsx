@@ -45,7 +45,7 @@ export default function CartPage() {
           <div className="pt-2">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-full shadow-subtle transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-subtle transition-all"
             >
               <span>Explore All Collections</span>
               <ArrowRight className="w-4 h-4" />
@@ -175,7 +175,7 @@ export default function CartPage() {
 
             <button
               onClick={() => setCheckoutModalOpen(true)}
-              className="w-full py-4 px-6 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-sm rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all"
+              className="w-full py-4 px-6 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-sm rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all"
             >
               <span>Proceed to WhatsApp Checkout</span>
               <ArrowRight className="w-4 h-4" />

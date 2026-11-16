@@ -53,7 +53,7 @@ export default function WishlistPage() {
           <div className="pt-2">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-full shadow-subtle transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-subtle transition-all"
             >
               <span>Discover Collections</span>
               <ArrowRight className="w-4 h-4" />
@@ -112,7 +112,7 @@ export default function WishlistPage() {
                     <button
                       onClick={() => handleMoveToBag(product)}
                       disabled={product.stock_quantity <= 0}
-                      className="w-full py-2.5 px-3 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-xs rounded-xl shadow-subtle flex items-center justify-center gap-1.5 transition-all disabled:opacity-50"
+                      className="w-full py-2.5 px-3 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-xs rounded-xl shadow-subtle flex items-center justify-center gap-1.5 transition-all disabled:opacity-50"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" />
                       <span>Move to Bag</span>

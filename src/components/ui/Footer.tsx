@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart, Instagram, MessageCircle, Mail, MapPin, Phone, ShieldCheck, Sparkles } from 'lucide-react';
+import { Heart, Instagram, MessageCircle, Mail, MapPin, Phone, ShieldCheck, Award } from 'lucide-react';
 
 export function Footer() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_BUSINESS_NUMBER || '919876543210';
@@ -16,7 +16,7 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-12 border-b border-border-soft text-center sm:text-left">
           <div className="flex items-center justify-center sm:justify-start gap-4 p-4 rounded-xl bg-pure-white/70 border border-border-soft">
             <div className="w-10 h-10 rounded-full bg-brand-pink8 flex items-center justify-center flex-shrink-0">
-              <Sparkles className="w-5 h-5 text-brand-pink" />
+              <Award className="w-5 h-5 text-brand-pink" />
             </div>
             <div>
               <h4 className="font-serif text-base font-semibold text-text-primary">Micro Gold Micron Polish</h4>

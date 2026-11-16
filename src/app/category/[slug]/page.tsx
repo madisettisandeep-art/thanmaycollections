@@ -87,7 +87,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               href={`/category/${c.slug}`}
               className={`px-4 py-2 rounded-full border text-xs font-semibold whitespace-nowrap transition-colors ${
                 c.slug === params.slug
-                  ? 'bg-brand-pink text-pure-white border-brand-pink shadow-subtle'
+                  ? 'bg-brand-pink text-white border-brand-pink shadow-subtle'
                   : 'bg-pure-white text-text-primary border-border-soft hover:border-brand-pink'
               }`}
             >
@@ -116,7 +116,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               </p>
               <Link
                 href="/shop"
-                className="inline-block mt-2 px-5 py-2.5 bg-brand-pink text-pure-white text-xs font-semibold rounded-full shadow-subtle"
+                className="inline-block mt-2 px-5 py-2.5 bg-brand-pink text-white text-xs font-semibold rounded-full shadow-subtle"
               >
                 Browse Shop All
               </Link>

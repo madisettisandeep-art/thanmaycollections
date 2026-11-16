@@ -1,126 +1,72 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Sparkles, Heart, ShieldCheck, Star, Instagram, ChevronRight } from 'lucide-react';
-import { getCategories, getProducts } from '@/lib/data/store-repository';
+import { ArrowRight, Heart, ShieldCheck, Instagram, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { getCategories, getProducts, getHeroBanners, getCinemaScrollItems } from '@/lib/data/store-repository';
 import { ProductCard } from '@/components/products/ProductCard';
+import { HeroSlider } from '@/components/home/HeroSlider';
+import { CinemaScroll } from '@/components/home/CinemaScroll';
 import { TESTIMONIALS, INSTAGRAM_POSTS } from '@/lib/data/mock-data';
 
 export const revalidate = 60; // ISR cache revalidation
 
 export default async function HomePage() {
-  const [categories, featuredProducts, newArrivals, bestsellers] = await Promise.all([
+  const [categories, featuredProducts, newArrivals, bestsellers, heroBanners, cinemaItems] = await Promise.all([
     getCategories(),
     getProducts({ featured: true }),
     getProducts({ newArrival: true }),
     getProducts({ bestseller: true }),
+    getHeroBanners(),
+    getCinemaScrollItems(),
   ]);
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-16">
       {/* =========================================================================
-          SECTION 3: HERO SECTION
+          SECTION 3: LUXURY HERO BANNER SLIDER (Auto-scrolling right-to-left)
           ========================================================================= */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-cream-warm via-cream-soft to-cream-ivory pt-8 pb-16 sm:py-24 border-b border-border-soft">
-        {/* Soft background ambient blush circles */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-pink8/40 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-80 h-80 bg-gold-light/40 rounded-full blur-3xl pointer-events-none" />
+      <HeroSlider banners={heroBanners} />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Copy Column */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-pink8/60 border border-brand-pink6 text-xs sm:text-sm font-medium text-text-primary">
-                <Sparkles className="w-4 h-4 text-brand-pink" />
-                <span className="tracking-wide">Bespoke Heritage & Bridal Imitation Jewellery</span>
-              </div>
-
-              <h1 className="font-serif text-4xl sm:text-6xl xl:text-7xl font-bold text-text-primary tracking-tight leading-[1.1]">
-                Elegance that <br className="hidden sm:inline" />
-                <span className="text-pink-gradient font-editorial italic font-normal">
-                  celebrates tradition.
-                </span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Discover timeless jewellery that brings beauty, tradition and elegance together. Handcrafted royal kundan choker sets, temple haar masterpieces, and anti-tarnish daily wear.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <Link
-                  href="/shop"
-                  className="w-full sm:w-auto px-8 py-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-sm rounded-full shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all transform hover:-translate-y-0.5"
-                >
-                  <span>Explore Collections</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
-                  href="/shop?sort=newest"
-                  className="w-full sm:w-auto px-8 py-4 bg-pure-white hover:bg-cream-warm text-text-primary font-semibold text-sm rounded-full border border-border-soft hover:border-brand-pink4 flex items-center justify-center gap-2 transition-all shadow-sm"
-                >
-                  <span>Shop New Arrivals</span>
-                </Link>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="pt-6 border-t border-border-soft/80 grid grid-cols-3 gap-4 text-center lg:text-left">
-                <div>
-                  <div className="font-serif text-2xl sm:text-3xl font-bold text-text-primary">24K</div>
-                  <div className="text-xs text-text-secondary">Micro Gold Polish</div>
-                </div>
-                <div>
-                  <div className="font-serif text-2xl sm:text-3xl font-bold text-text-primary">100%</div>
-                  <div className="text-xs text-text-secondary">Artisanal Kundan</div>
-                </div>
-                <div>
-                  <div className="font-serif text-2xl sm:text-3xl font-bold text-text-primary">Direct</div>
-                  <div className="text-xs text-text-secondary">WhatsApp Concierge</div>
-                </div>
-              </div>
+      {/* Trust Highlights Bar */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-10 relative z-20">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-card border border-border-soft p-5 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center sm:text-left">
+          <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-pink8/60 border border-brand-pink6 flex items-center justify-center flex-shrink-0 text-brand-pink">
+              <span className="font-serif font-bold text-base sm:text-lg">24K</span>
             </div>
+            <div>
+              <div className="font-serif text-sm sm:text-base font-bold text-text-primary">Micro Gold Polish</div>
+              <div className="text-[11px] sm:text-xs text-text-secondary">Authentic long-lasting lustre</div>
+            </div>
+          </div>
 
-            {/* Right Editorial Visual Column */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                {/* Main luxury editorial portrait */}
-                <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-pure-white">
-                  <Image
-                    src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=85"
-                    alt="Indian model wearing Thanmay Collections Royal Kundan Choker Set"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover"
-                  />
-                  {/* Subtle inner champagne gold vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-text-primary/40 via-transparent to-transparent pointer-events-none" />
+          <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-pink8/60 border border-brand-pink6 flex items-center justify-center flex-shrink-0 text-brand-pink">
+              <span className="font-serif font-bold text-base sm:text-lg">100%</span>
+            </div>
+            <div>
+              <div className="font-serif text-sm sm:text-base font-bold text-text-primary">Artisanal Kundan</div>
+              <div className="text-[11px] sm:text-xs text-text-secondary">Hand-set uncut polki stones</div>
+            </div>
+          </div>
 
-                  <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl bg-pure-white/90 backdrop-blur-md border border-border-soft shadow-lg">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-brand-pink font-semibold">
-                      Featured Masterpiece
-                    </span>
-                    <h3 className="font-serif text-base font-bold text-text-primary">
-                      Padmavati Royal Kundan Choker
-                    </h3>
-                    <div className="flex items-center justify-between text-xs mt-1">
-                      <span className="text-text-secondary">Hand-set Uncut Polki & Emerald Drops</span>
-                      <span className="text-brand-pink font-bold">₹3,999</span>
-                    </div>
-                  </div>
-                </div>
+          <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-pink8/60 border border-brand-pink6 flex items-center justify-center flex-shrink-0 text-brand-pink">
+              <ShieldCheck className="w-5 h-5 text-brand-pink" />
+            </div>
+            <div>
+              <div className="font-serif text-sm sm:text-base font-bold text-text-primary">Skin-Safe & Anti-Tarnish</div>
+              <div className="text-[11px] sm:text-xs text-text-secondary">Nickel-free hypoallergenic base</div>
+            </div>
+          </div>
 
-                {/* Floating decorative badge */}
-                <div className="absolute -top-4 -left-4 sm:-left-6 p-3 rounded-2xl bg-pure-white/95 backdrop-blur-md shadow-card border border-border-soft flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand-pink8 flex items-center justify-center text-brand-pink">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-text-primary">Heritage Finish</div>
-                    <div className="text-[10px] text-text-secondary">Skin-Safe & Nickel-Free</div>
-                  </div>
-                </div>
-              </div>
+          <div className="flex items-center gap-3 sm:gap-4 justify-center sm:justify-start">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-brand-pink8/60 border border-brand-pink6 flex items-center justify-center flex-shrink-0 text-brand-pink">
+              <CheckCircle2 className="w-5 h-5 text-brand-pink" />
+            </div>
+            <div>
+              <div className="font-serif text-sm sm:text-base font-bold text-text-primary">Direct WhatsApp Orders</div>
+              <div className="text-[11px] sm:text-xs text-text-secondary">Personalized concierge help</div>
             </div>
           </div>
         </div>
@@ -131,7 +77,7 @@ export default async function HomePage() {
           ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest">
+          <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest block">
             Artisanal Categories
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary mt-1">
@@ -148,7 +94,7 @@ export default async function HomePage() {
             <Link
               key={cat.id}
               href={`/category/${cat.slug}`}
-              className="group relative rounded-2xl overflow-hidden border border-border-soft bg-pure-white shadow-subtle hover:shadow-card transition-all duration-300 aspect-[3/4] flex flex-col justify-end p-5"
+              className="group relative rounded-2xl overflow-hidden border border-border-soft bg-white shadow-subtle hover:shadow-card transition-all duration-300 aspect-[3/4] flex flex-col justify-end p-5"
             >
               <Image
                 src={cat.image_url || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80'}
@@ -157,11 +103,10 @@ export default async function HomePage() {
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
-              {/* Gradient Scrim */}
-              <div className="absolute inset-0 bg-gradient-to-t from-text-primary/80 via-text-primary/20 to-transparent group-hover:from-text-primary/90 transition-colors" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent group-hover:from-black/90 transition-colors" />
 
-              <div className="relative z-10 text-pure-white">
-                <h3 className="font-serif text-lg sm:text-xl font-bold tracking-wide group-hover:text-brand-pink8 transition-colors">
+              <div className="relative z-10 text-white">
+                <h3 className="font-serif text-lg sm:text-xl font-bold tracking-wide group-hover:text-gold-light transition-colors text-white">
                   {cat.name}
                 </h3>
                 <span className="inline-flex items-center gap-1 text-[11px] font-medium text-cream-warm group-hover:translate-x-1 transition-transform mt-1">
@@ -175,12 +120,17 @@ export default async function HomePage() {
       </section>
 
       {/* =========================================================================
+          LIVE CINEMA SCROLL: LATEST COLLECTIONS IN MOTION
+          ========================================================================= */}
+      <CinemaScroll items={cinemaItems} />
+
+      {/* =========================================================================
           SECTION 5: NEW ARRIVALS
           ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
           <div>
-            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest">
+            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest block">
               Fresh In Store
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary mt-1">
@@ -188,7 +138,7 @@ export default async function HomePage() {
             </h2>
           </div>
           <Link
-            href="/shop?filter=new"
+            href="/shop?sort=newest"
             className="text-xs sm:text-sm font-semibold text-brand-pink hover:text-brand-pink2 flex items-center gap-1.5 transition-colors"
           >
             <span>View All New Pieces</span>
@@ -209,7 +159,7 @@ export default async function HomePage() {
       <section className="bg-cream-warm/60 py-16 border-y border-border-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest">
+            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest block">
               Most Loved Pieces
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary mt-1">
@@ -236,8 +186,8 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Bridal Banner */}
           <div className="relative rounded-3xl overflow-hidden bg-brand-pink8/40 border border-border-soft p-8 sm:p-12 flex flex-col justify-between min-h-[420px] shadow-card">
-            <div className="relative z-10 space-y-3 max-w-md">
-              <span className="px-3 py-1 rounded-full bg-pure-white text-[11px] font-bold uppercase tracking-wider text-brand-pink shadow-sm inline-block">
+            <div className="relative z-10 space-y-4 max-w-md">
+              <span className="px-3 py-1 rounded-full bg-white text-[11px] font-bold uppercase tracking-wider text-brand-pink shadow-sm inline-block">
                 Royal Bridal Trousseau
               </span>
               <h3 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary">
@@ -249,10 +199,10 @@ export default async function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/category/bridal-jewellery"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-full shadow-subtle transition-all"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
                 >
-                  <span>Explore Bridal Trousseau</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span className="text-white font-semibold">Explore Bridal Trousseau</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white" />
                 </Link>
               </div>
             </div>
@@ -269,8 +219,8 @@ export default async function HomePage() {
 
           {/* Temple Heritage Banner */}
           <div className="relative rounded-3xl overflow-hidden bg-gold-light/40 border border-gold-dark/30 p-8 sm:p-12 flex flex-col justify-between min-h-[420px] shadow-card">
-            <div className="relative z-10 space-y-3 max-w-md">
-              <span className="px-3 py-1 rounded-full bg-pure-white text-[11px] font-bold uppercase tracking-wider text-gold-dark shadow-sm inline-block">
+            <div className="relative z-10 space-y-4 max-w-md">
+              <span className="px-3 py-1 rounded-full bg-white text-[11px] font-bold uppercase tracking-wider text-gold-dark shadow-sm inline-block">
                 South Indian Heritage
               </span>
               <h3 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary">
@@ -282,10 +232,10 @@ export default async function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/category/temple-jewellery"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-text-primary hover:bg-black text-pure-white text-xs font-semibold rounded-full shadow-subtle transition-all"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-text-primary hover:bg-black text-white text-xs font-semibold rounded-full shadow-md hover:shadow-lg transition-all"
                 >
-                  <span>Discover Temple Jewellery</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span className="text-white font-semibold">Discover Temple Jewellery</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white" />
                 </Link>
               </div>
             </div>
@@ -307,7 +257,7 @@ export default async function HomePage() {
           ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest">
+          <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest block">
             Curated Occasions
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary mt-1">
@@ -330,9 +280,9 @@ export default async function HomePage() {
               className="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-cream-warm border border-border-soft shadow-subtle hover:shadow-card transition-all"
             >
               <Image src={item.img} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-text-primary/80 via-text-primary/20 to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3 text-pure-white">
-                <h4 className="font-serif text-base font-bold group-hover:text-brand-pink8 transition-colors">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+              <div className="absolute bottom-3 left-3 right-3 text-white">
+                <h4 className="font-serif text-base font-bold group-hover:text-gold-light transition-colors text-white">
                   {item.title}
                 </h4>
                 <p className="text-[10px] text-cream-warm">{item.desc}</p>
@@ -374,10 +324,10 @@ export default async function HomePage() {
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-brand-pink/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center text-pure-white">
-                <Instagram className="w-6 h-6 mb-2" />
-                <p className="text-xs line-clamp-3 font-medium">{post.caption}</p>
-                <span className="text-[11px] underline mt-2 font-semibold">View on Instagram</span>
+              <div className="absolute inset-0 bg-brand-pink/75 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center text-white">
+                <Instagram className="w-6 h-6 mb-2 text-white" />
+                <p className="text-xs line-clamp-3 font-medium text-white">{post.caption}</p>
+                <span className="text-[11px] underline mt-2 font-semibold text-white">View on Instagram</span>
               </div>
             </a>
           ))}
@@ -390,7 +340,7 @@ export default async function HomePage() {
       <section className="bg-cream-warm/50 py-16 border-y border-border-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest">
+            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest block">
               Verified Client Love
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary mt-1">
@@ -403,13 +353,14 @@ export default async function HomePage() {
             {TESTIMONIALS.map((t) => (
               <div
                 key={t.id}
-                className="p-6 rounded-2xl bg-pure-white border border-border-soft shadow-subtle flex flex-col justify-between"
+                className="p-6 rounded-2xl bg-white border border-border-soft shadow-subtle flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex gap-1 text-gold-dark mb-3">
-                    {[...Array(t.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
+                  <div className="flex items-center gap-1.5 text-brand-pink font-semibold text-xs tracking-wider uppercase mb-3">
+                    <span className="px-2 py-0.5 rounded-md bg-brand-pink8/60 border border-brand-pink6 text-brand-pink font-bold">
+                      5.0 / 5.0
+                    </span>
+                    <span className="text-text-secondary text-[11px]">Client Rating</span>
                   </div>
                   <p className="text-xs sm:text-sm text-text-primary leading-relaxed italic">
                     &ldquo;{t.comment}&rdquo;
@@ -435,39 +386,32 @@ export default async function HomePage() {
       </section>
 
       {/* =========================================================================
-          SECTION 12: BRAND STORY & CRAFTSMANSHIP
+          SECTION 12: BRAND STORY
           ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-14 rounded-3xl bg-pure-white border border-border-soft shadow-card grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-4 relative h-64 sm:h-80 rounded-2xl overflow-hidden border border-border-soft bg-cream-warm">
-            <Image
-              src="https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?auto=format&fit=crop&w=800&q=80"
-              alt="Craftsmanship at Thanmay Collections"
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          <div className="lg:col-span-8 space-y-4">
-            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest">
-              The Thanmay Philosophy
+        <div className="rounded-3xl bg-gradient-to-br from-cream-warm via-white to-brand-pink8/30 border border-border-soft p-8 sm:p-14 shadow-card">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <span className="text-xs font-semibold text-brand-pink uppercase tracking-widest block">
+              Our Heritage & Philosophy
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-text-primary">
-              Crafting Heirloom Memories with Modern Grace
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-text-primary">
+              Crafting Heirloom Memories for Every Celebration
             </h2>
-            <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-              At <strong className="text-text-primary font-semibold">Thanmay Collections</strong>, we believe every piece of jewellery carries emotion, heritage, and the soul of celebrations. Founded with a vision to make luxury traditional imitation jewellery accessible, we partner directly with generational artisans in Jaipur, Hyderabad, and South India.
+            <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
+              At Thanmay Collections, we believe true luxury honors tradition. Every piece in our curation—from royal uncut polki kundan chokers to antique temple malas—is handcrafted by master artisans who pour generations of Indian heritage into every setting. We bring you jewelry that looks and feels majestic, accessible right at your fingertips with personalized WhatsApp assistance.
             </p>
-            <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-              Every creation is dipped in high-micron 24K gold polish, set with uncut polki kundan, and carefully examined for durability, hypoallergenic comfort, and weight balance.
-            </p>
-            <div className="pt-2">
+            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-xs font-semibold text-brand-pink hover:text-brand-pink2 underline underline-offset-4"
+                className="px-8 py-3.5 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-xs rounded-full shadow-md hover:shadow-lg transition-all"
               >
-                <span>Read Our Full Story & Craft Heritage</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span className="text-white font-semibold">Read Our Full Story</span>
+              </Link>
+              <Link
+                href="/care-guide"
+                className="px-8 py-3.5 bg-white hover:bg-cream-warm text-text-primary font-semibold text-xs rounded-full border border-border-soft hover:border-brand-pink transition-all"
+              >
+                Jewellery Care Guide
               </Link>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, ArrowRight, ChevronRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { getProducts } from '@/lib/data/store-repository';
 import { ProductCard } from '@/components/products/ProductCard';
 import { Metadata } from 'next';
@@ -29,8 +29,8 @@ export default async function NewArrivalsPage() {
           </nav>
 
           <div className="max-w-2xl space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pure-white text-[11px] font-bold uppercase tracking-wider text-brand-pink shadow-sm">
-              <Sparkles className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[11px] font-bold uppercase tracking-wider text-brand-pink shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-brand-pink" />
               <span>Fresh Artisan Drops</span>
             </div>
             <h1 className="font-serif text-3xl sm:text-5xl font-bold text-text-primary">

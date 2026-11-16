@@ -58,7 +58,7 @@ export function CartDrawer() {
                   <Link
                     href="/shop"
                     onClick={() => setIsOpen(false)}
-                    className="px-6 py-2.5 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-full shadow-subtle transition-all"
+                    className="px-6 py-2.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-subtle transition-all"
                   >
                     Explore Collections
                   </Link>
@@ -164,7 +164,7 @@ export function CartDrawer() {
                 <button
                   type="button"
                   onClick={() => setCheckoutModalOpen(true)}
-                  className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all"
+                  className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all"
                 >
                   <span>Proceed to WhatsApp Checkout</span>
                   <ArrowRight className="w-4 h-4" />

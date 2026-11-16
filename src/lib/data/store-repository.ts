@@ -1,11 +1,13 @@
-import { Category, Product, Order, OrderItem, CustomerOrderDetails, OrderStatus, InventoryLog, AuditLog, ContactEnquiry } from '@/types';
-import { INITIAL_CATEGORIES, INITIAL_PRODUCTS } from './mock-data';
+import { Category, Product, Order, OrderItem, CustomerOrderDetails, OrderStatus, InventoryLog, AuditLog, ContactEnquiry, HeroBanner, CinemaScrollItem } from '@/types';
+import { INITIAL_CATEGORIES, INITIAL_PRODUCTS, INITIAL_HERO_BANNERS, INITIAL_CINEMA_SCROLL_ITEMS } from './mock-data';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { generateOrderNumber } from '@/lib/utils/formatters';
 
 // In-memory runtime cache for fallback / test environments
 let memoryCategories: Category[] = [...INITIAL_CATEGORIES];
 let memoryProducts: Product[] = [...INITIAL_PRODUCTS];
+let memoryHeroBanners: HeroBanner[] = [...INITIAL_HERO_BANNERS];
+let memoryCinemaScrollItems: CinemaScrollItem[] = [...INITIAL_CINEMA_SCROLL_ITEMS];
 let memoryOrders: Order[] = [
   {
     id: 'ord-001',
@@ -467,4 +469,85 @@ export async function saveContactEnquiry(params: {
 
   memoryEnquiries.unshift(enquiry);
   return enquiry;
+}
+
+// ==========================================
+// HERO BANNERS MANAGEMENT
+// ==========================================
+export async function getHeroBanners(onlyActive: boolean = true): Promise<HeroBanner[]> {
+  const banners = onlyActive ? memoryHeroBanners.filter((b) => b.is_active) : memoryHeroBanners;
+  return [...banners].sort((a, b) => a.display_order - b.display_order);
+}
+
+export async function createHeroBanner(bannerData: Partial<HeroBanner>): Promise<HeroBanner> {
+  const newBanner: HeroBanner = {
+    id: `hero-${Date.now()}`,
+    title: bannerData.title || 'Special Collection',
+    subtitle: bannerData.subtitle || '',
+    badge: bannerData.badge || 'New',
+    button_text: bannerData.button_text || 'Explore Now',
+    button_link: bannerData.button_link || '/shop',
+    image_url: bannerData.image_url || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1920&q=85',
+    display_order: bannerData.display_order ?? (memoryHeroBanners.length + 1),
+    is_active: bannerData.is_active ?? true,
+    created_at: new Date().toISOString(),
+  };
+  memoryHeroBanners.push(newBanner);
+  return newBanner;
+}
+
+export async function updateHeroBanner(id: string, updates: Partial<HeroBanner>): Promise<HeroBanner | null> {
+  const banner = memoryHeroBanners.find((b) => b.id === id);
+  if (!banner) return null;
+  Object.assign(banner, updates);
+  return banner;
+}
+
+export async function deleteHeroBanner(id: string): Promise<boolean> {
+  const idx = memoryHeroBanners.findIndex((b) => b.id === id);
+  if (idx !== -1) {
+    memoryHeroBanners.splice(idx, 1);
+    return true;
+  }
+  return false;
+}
+
+// ==========================================
+// CINEMA SCROLL MANAGEMENT
+// ==========================================
+export async function getCinemaScrollItems(onlyActive: boolean = true): Promise<CinemaScrollItem[]> {
+  const items = onlyActive ? memoryCinemaScrollItems.filter((item) => item.is_active) : memoryCinemaScrollItems;
+  return [...items].sort((a, b) => a.display_order - b.display_order);
+}
+
+export async function createCinemaScrollItem(itemData: Partial<CinemaScrollItem>): Promise<CinemaScrollItem> {
+  const newItem: CinemaScrollItem = {
+    id: `cinema-${Date.now()}`,
+    title: itemData.title || 'Collection Highlight',
+    subtitle: itemData.subtitle || '',
+    collection_name: itemData.collection_name || 'Artisanal Jewels',
+    image_url: itemData.image_url || 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=85',
+    link_url: itemData.link_url || '/shop',
+    display_order: itemData.display_order ?? (memoryCinemaScrollItems.length + 1),
+    is_active: itemData.is_active ?? true,
+    created_at: new Date().toISOString(),
+  };
+  memoryCinemaScrollItems.push(newItem);
+  return newItem;
+}
+
+export async function updateCinemaScrollItem(id: string, updates: Partial<CinemaScrollItem>): Promise<CinemaScrollItem | null> {
+  const item = memoryCinemaScrollItems.find((c) => c.id === id);
+  if (!item) return null;
+  Object.assign(item, updates);
+  return item;
+}
+
+export async function deleteCinemaScrollItem(id: string): Promise<boolean> {
+  const idx = memoryCinemaScrollItems.findIndex((c) => c.id === id);
+  if (idx !== -1) {
+    memoryCinemaScrollItems.splice(idx, 1);
+    return true;
+  }
+  return false;
 }

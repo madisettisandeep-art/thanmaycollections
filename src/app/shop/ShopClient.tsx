@@ -318,7 +318,7 @@ export function ShopClient({
               </p>
               <button
                 onClick={resetFilters}
-                className="px-5 py-2 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-full shadow-subtle"
+                className="px-5 py-2 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-subtle"
               >
                 Reset All Filters
               </button>
@@ -404,7 +404,7 @@ export function ShopClient({
             <div className="pt-4 border-t border-border-soft">
               <button
                 onClick={() => setMobileFiltersOpen(false)}
-                className="w-full py-3 bg-brand-pink text-pure-white text-xs font-semibold rounded-xl"
+                className="w-full py-3 bg-brand-pink text-white text-xs font-semibold rounded-xl"
               >
                 Apply Filters ({filteredProducts.length})
               </button>

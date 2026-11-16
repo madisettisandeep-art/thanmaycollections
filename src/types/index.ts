@@ -123,3 +123,28 @@ export interface ContactEnquiry {
   is_read: boolean;
   created_at: string;
 }
+
+export interface HeroBanner {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  badge?: string | null;
+  button_text?: string | null;
+  button_link?: string | null;
+  image_url: string;
+  display_order: number;
+  is_active: boolean;
+  created_at?: string;
+}
+
+export interface CinemaScrollItem {
+  id: string;
+  title: string;
+  subtitle?: string | null;
+  collection_name?: string | null;
+  image_url: string;
+  link_url: string;
+  display_order: number;
+  is_active: boolean;
+  created_at?: string;
+}

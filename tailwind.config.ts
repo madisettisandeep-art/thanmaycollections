@@ -9,6 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'pure-white': "#FFFFFF",
+        white: "#FFFFFF",
         brand: {
           pink: "#5F143F",
           pink2: "#691E49",
@@ -21,6 +23,16 @@ const config: Config = {
           primary: "#5F143F",
           accent: "#691E49",
           deep: "#5F143F",
+        },
+        plum: {
+          1: "#5F143F",
+          2: "#691E49",
+          3: "#732853",
+          4: "#7D325D",
+          5: "#873C67",
+          6: "#914671",
+          7: "#9B507B",
+          8: "#A55A85",
         },
         gold: {
           DEFAULT: "#E8D5A8",

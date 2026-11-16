@@ -1,5 +1,5 @@
 import React from 'react';
-import { Droplets, Sun, Sparkles, Package, ShieldCheck, Heart, AlertTriangle } from 'lucide-react';
+import { Droplets, Sun, Package, ShieldCheck, Heart, AlertTriangle } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -69,7 +69,7 @@ export default function CareGuidePage() {
         {/* Polki & Kundan Special Note */}
         <div className="p-6 sm:p-8 rounded-3xl bg-cream-warm border border-border-soft space-y-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-brand-pink" />
+            <ShieldCheck className="w-5 h-5 text-brand-pink" />
             <h3 className="font-serif text-xl font-bold text-text-primary">
               Caring for Kundan & Meenakari Pieces
             </h3>

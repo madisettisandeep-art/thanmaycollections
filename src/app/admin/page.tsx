@@ -9,6 +9,8 @@ import {
   getInventoryLogs,
   getAuditLogs,
   getContactEnquiries,
+  getHeroBanners,
+  getCinemaScrollItems,
 } from '@/lib/data/store-repository';
 import { Metadata } from 'next';
 
@@ -27,13 +29,15 @@ export default async function AdminPage() {
     return <AdminLoginPage />;
   }
 
-  const [products, categories, orders, inventoryLogs, auditLogs, enquiries] = await Promise.all([
+  const [products, categories, orders, inventoryLogs, auditLogs, enquiries, heroBanners, cinemaItems] = await Promise.all([
     getAllProductsAdmin(),
     getAllCategoriesAdmin(),
     getOrdersAdmin(),
     getInventoryLogs(),
     getAuditLogs(),
     getContactEnquiries(),
+    getHeroBanners(false),
+    getCinemaScrollItems(false),
   ]);
 
   return (
@@ -44,6 +48,8 @@ export default async function AdminPage() {
       initialInventoryLogs={inventoryLogs}
       initialAuditLogs={auditLogs}
       initialEnquiries={enquiries}
+      initialHeroBanners={heroBanners}
+      initialCinemaItems={cinemaItems}
     />
   );
 }

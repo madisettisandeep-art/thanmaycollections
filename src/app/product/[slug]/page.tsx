@@ -1,7 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, Sparkles, Shield, Droplets, Sun, Package } from 'lucide-react';
+import { ChevronRight, Shield, Droplets, Sun, Package } from 'lucide-react';
 import { getProductBySlug, getProducts } from '@/lib/data/store-repository';
 import { ProductDetailClient } from './ProductDetailClient';
 import { ProductCard } from '@/components/products/ProductCard';
@@ -138,7 +138,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Jewellery Care Guide Box */}
         <div className="p-6 sm:p-8 rounded-3xl bg-cream-warm/60 border border-border-soft space-y-4">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-brand-pink" />
+            <Shield className="w-5 h-5 text-brand-pink" />
             <h2 className="font-serif text-xl sm:text-2xl font-bold text-text-primary">
               Thanmay Jewellery Care Guidelines
             </h2>

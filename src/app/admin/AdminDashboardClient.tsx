@@ -25,8 +25,10 @@ import {
   Search,
   ExternalLink,
   MessageCircle,
+  Film,
+  SlidersHorizontal,
 } from 'lucide-react';
-import { Product, Category, Order, InventoryLog, AuditLog, ContactEnquiry, OrderStatus } from '@/types';
+import { Product, Category, Order, InventoryLog, AuditLog, ContactEnquiry, OrderStatus, HeroBanner, CinemaScrollItem } from '@/types';
 import { formatPrice } from '@/lib/utils/formatters';
 
 interface AdminDashboardClientProps {
@@ -36,6 +38,8 @@ interface AdminDashboardClientProps {
   initialInventoryLogs: InventoryLog[];
   initialAuditLogs: AuditLog[];
   initialEnquiries: ContactEnquiry[];
+  initialHeroBanners?: HeroBanner[];
+  initialCinemaItems?: CinemaScrollItem[];
 }
 
 export function AdminDashboardClient({
@@ -45,10 +49,12 @@ export function AdminDashboardClient({
   initialInventoryLogs,
   initialAuditLogs,
   initialEnquiries,
+  initialHeroBanners = [],
+  initialCinemaItems = [],
 }: AdminDashboardClientProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'products' | 'orders' | 'categories' | 'inventory' | 'enquiries' | 'audit'
+    'overview' | 'products' | 'orders' | 'categories' | 'inventory' | 'hero' | 'cinema' | 'enquiries' | 'audit'
   >('overview');
 
   const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -57,6 +63,35 @@ export function AdminDashboardClient({
   const [categories] = useState<Category[]>(initialCategories);
   const [enquiries] = useState<ContactEnquiry[]>(initialEnquiries);
   const [auditLogs] = useState<AuditLog[]>(initialAuditLogs);
+  const [heroBanners, setHeroBanners] = useState<HeroBanner[]>(initialHeroBanners);
+  const [cinemaItems, setCinemaItems] = useState<CinemaScrollItem[]>(initialCinemaItems);
+
+  // Hero Banners Modal State
+  const [heroModalOpen, setHeroModalOpen] = useState(false);
+  const [editingHeroBanner, setEditingHeroBanner] = useState<HeroBanner | null>(null);
+  const [heroForm, setHeroForm] = useState({
+    title: '',
+    subtitle: '',
+    badge: 'Exclusive Offer',
+    button_text: 'Explore Collections',
+    button_link: '/shop',
+    image_url: '',
+    display_order: 1,
+    is_active: true,
+  });
+
+  // Cinema Scroll Modal State
+  const [cinemaModalOpen, setCinemaModalOpen] = useState(false);
+  const [editingCinemaItem, setEditingCinemaItem] = useState<CinemaScrollItem | null>(null);
+  const [cinemaForm, setCinemaForm] = useState({
+    title: '',
+    subtitle: '',
+    collection_name: 'Royal Collections',
+    image_url: '',
+    link_url: '/shop',
+    display_order: 1,
+    is_active: true,
+  });
 
   // Search & filter states
   const [productSearch, setProductSearch] = useState('');
@@ -224,6 +259,186 @@ export function AdminDashboardClient({
     setProductModalOpen(true);
   };
 
+  // Hero Banners Actions
+  const openNewHeroBannerModal = () => {
+    setEditingHeroBanner(null);
+    setHeroForm({
+      title: '',
+      subtitle: '',
+      badge: 'Exclusive Offer',
+      button_text: 'Explore Collections',
+      button_link: '/shop',
+      image_url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1920&q=85',
+      display_order: heroBanners.length + 1,
+      is_active: true,
+    });
+    setHeroModalOpen(true);
+  };
+
+  const openEditHeroBannerModal = (banner: HeroBanner) => {
+    setEditingHeroBanner(banner);
+    setHeroForm({
+      title: banner.title,
+      subtitle: banner.subtitle || '',
+      badge: banner.badge || '',
+      button_text: banner.button_text || 'Explore Collection',
+      button_link: banner.button_link || '/shop',
+      image_url: banner.image_url,
+      display_order: banner.display_order,
+      is_active: banner.is_active,
+    });
+    setHeroModalOpen(true);
+  };
+
+  const handleSaveHeroBanner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingHeroBanner) {
+        const res = await fetch(`/api/admin/hero-banners/${editingHeroBanner.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(heroForm),
+        });
+        const data = await res.json();
+        if (data.success && data.banner) {
+          setHeroBanners((prev) => prev.map((b) => (b.id === editingHeroBanner.id ? data.banner : b)));
+          setHeroModalOpen(false);
+        }
+      } else {
+        const res = await fetch('/api/admin/hero-banners', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(heroForm),
+        });
+        const data = await res.json();
+        if (data.success && data.banner) {
+          setHeroBanners((prev) => [...prev, data.banner]);
+          setHeroModalOpen(false);
+        }
+      }
+    } catch {
+      alert('Failed to save hero banner');
+    }
+  };
+
+  const handleDeleteHeroBanner = async (id: string) => {
+    if (!confirm('Are you sure you want to remove this hero banner slide?')) return;
+    try {
+      const res = await fetch(`/api/admin/hero-banners/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        setHeroBanners((prev) => prev.filter((b) => b.id !== id));
+      }
+    } catch {
+      alert('Failed to delete hero banner');
+    }
+  };
+
+  const handleToggleHeroBanner = async (id: string, currentActive: boolean) => {
+    try {
+      const res = await fetch(`/api/admin/hero-banners/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_active: !currentActive }),
+      });
+      const data = await res.json();
+      if (data.success && data.banner) {
+        setHeroBanners((prev) => prev.map((b) => (b.id === id ? data.banner : b)));
+      }
+    } catch {
+      alert('Failed to update status');
+    }
+  };
+
+  // Cinema Scroll Actions
+  const openNewCinemaItemModal = () => {
+    setEditingCinemaItem(null);
+    setCinemaForm({
+      title: '',
+      subtitle: '',
+      collection_name: 'Artisan Collection',
+      image_url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=85',
+      link_url: '/shop',
+      display_order: cinemaItems.length + 1,
+      is_active: true,
+    });
+    setCinemaModalOpen(true);
+  };
+
+  const openEditCinemaItemModal = (item: CinemaScrollItem) => {
+    setEditingCinemaItem(item);
+    setCinemaForm({
+      title: item.title,
+      subtitle: item.subtitle || '',
+      collection_name: item.collection_name || 'Royal Jewels',
+      image_url: item.image_url,
+      link_url: item.link_url,
+      display_order: item.display_order,
+      is_active: item.is_active,
+    });
+    setCinemaModalOpen(true);
+  };
+
+  const handleSaveCinemaItem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingCinemaItem) {
+        const res = await fetch(`/api/admin/cinema-scroll/${editingCinemaItem.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cinemaForm),
+        });
+        const data = await res.json();
+        if (data.success && data.item) {
+          setCinemaItems((prev) => prev.map((c) => (c.id === editingCinemaItem.id ? data.item : c)));
+          setCinemaModalOpen(false);
+        }
+      } else {
+        const res = await fetch('/api/admin/cinema-scroll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cinemaForm),
+        });
+        const data = await res.json();
+        if (data.success && data.item) {
+          setCinemaItems((prev) => [...prev, data.item]);
+          setCinemaModalOpen(false);
+        }
+      }
+    } catch {
+      alert('Failed to save cinema frame');
+    }
+  };
+
+  const handleDeleteCinemaItem = async (id: string) => {
+    if (!confirm('Are you sure you want to remove this cinema scroll frame?')) return;
+    try {
+      const res = await fetch(`/api/admin/cinema-scroll/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        setCinemaItems((prev) => prev.filter((c) => c.id !== id));
+      }
+    } catch {
+      alert('Failed to delete cinema frame');
+    }
+  };
+
+  const handleToggleCinemaItem = async (id: string, currentActive: boolean) => {
+    try {
+      const res = await fetch(`/api/admin/cinema-scroll/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_active: !currentActive }),
+      });
+      const data = await res.json();
+      if (data.success && data.item) {
+        setCinemaItems((prev) => prev.map((c) => (c.id === id ? data.item : c)));
+      }
+    } catch {
+      alert('Failed to update status');
+    }
+  };
+
   const openEditProductModal = (product: Product) => {
     setEditingProduct(product);
     setProductForm({
@@ -243,6 +458,186 @@ export function AdminDashboardClient({
       image_url: product.images?.[0]?.image_path || '',
     });
     setProductModalOpen(true);
+  };
+
+  // Hero Banners Actions
+  const openNewHeroBannerModal = () => {
+    setEditingHeroBanner(null);
+    setHeroForm({
+      title: '',
+      subtitle: '',
+      badge: 'Exclusive Offer',
+      button_text: 'Explore Collections',
+      button_link: '/shop',
+      image_url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1920&q=85',
+      display_order: heroBanners.length + 1,
+      is_active: true,
+    });
+    setHeroModalOpen(true);
+  };
+
+  const openEditHeroBannerModal = (banner: HeroBanner) => {
+    setEditingHeroBanner(banner);
+    setHeroForm({
+      title: banner.title,
+      subtitle: banner.subtitle || '',
+      badge: banner.badge || '',
+      button_text: banner.button_text || 'Explore Collection',
+      button_link: banner.button_link || '/shop',
+      image_url: banner.image_url,
+      display_order: banner.display_order,
+      is_active: banner.is_active,
+    });
+    setHeroModalOpen(true);
+  };
+
+  const handleSaveHeroBanner = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingHeroBanner) {
+        const res = await fetch(`/api/admin/hero-banners/${editingHeroBanner.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(heroForm),
+        });
+        const data = await res.json();
+        if (data.success && data.banner) {
+          setHeroBanners((prev) => prev.map((b) => (b.id === editingHeroBanner.id ? data.banner : b)));
+          setHeroModalOpen(false);
+        }
+      } else {
+        const res = await fetch('/api/admin/hero-banners', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(heroForm),
+        });
+        const data = await res.json();
+        if (data.success && data.banner) {
+          setHeroBanners((prev) => [...prev, data.banner]);
+          setHeroModalOpen(false);
+        }
+      }
+    } catch {
+      alert('Failed to save hero banner');
+    }
+  };
+
+  const handleDeleteHeroBanner = async (id: string) => {
+    if (!confirm('Are you sure you want to remove this hero banner slide?')) return;
+    try {
+      const res = await fetch(`/api/admin/hero-banners/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        setHeroBanners((prev) => prev.filter((b) => b.id !== id));
+      }
+    } catch {
+      alert('Failed to delete hero banner');
+    }
+  };
+
+  const handleToggleHeroBanner = async (id: string, currentActive: boolean) => {
+    try {
+      const res = await fetch(`/api/admin/hero-banners/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_active: !currentActive }),
+      });
+      const data = await res.json();
+      if (data.success && data.banner) {
+        setHeroBanners((prev) => prev.map((b) => (b.id === id ? data.banner : b)));
+      }
+    } catch {
+      alert('Failed to update status');
+    }
+  };
+
+  // Cinema Scroll Actions
+  const openNewCinemaItemModal = () => {
+    setEditingCinemaItem(null);
+    setCinemaForm({
+      title: '',
+      subtitle: '',
+      collection_name: 'Artisan Collection',
+      image_url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=85',
+      link_url: '/shop',
+      display_order: cinemaItems.length + 1,
+      is_active: true,
+    });
+    setCinemaModalOpen(true);
+  };
+
+  const openEditCinemaItemModal = (item: CinemaScrollItem) => {
+    setEditingCinemaItem(item);
+    setCinemaForm({
+      title: item.title,
+      subtitle: item.subtitle || '',
+      collection_name: item.collection_name || 'Royal Jewels',
+      image_url: item.image_url,
+      link_url: item.link_url,
+      display_order: item.display_order,
+      is_active: item.is_active,
+    });
+    setCinemaModalOpen(true);
+  };
+
+  const handleSaveCinemaItem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingCinemaItem) {
+        const res = await fetch(`/api/admin/cinema-scroll/${editingCinemaItem.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cinemaForm),
+        });
+        const data = await res.json();
+        if (data.success && data.item) {
+          setCinemaItems((prev) => prev.map((c) => (c.id === editingCinemaItem.id ? data.item : c)));
+          setCinemaModalOpen(false);
+        }
+      } else {
+        const res = await fetch('/api/admin/cinema-scroll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cinemaForm),
+        });
+        const data = await res.json();
+        if (data.success && data.item) {
+          setCinemaItems((prev) => [...prev, data.item]);
+          setCinemaModalOpen(false);
+        }
+      }
+    } catch {
+      alert('Failed to save cinema frame');
+    }
+  };
+
+  const handleDeleteCinemaItem = async (id: string) => {
+    if (!confirm('Are you sure you want to remove this cinema scroll frame?')) return;
+    try {
+      const res = await fetch(`/api/admin/cinema-scroll/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        setCinemaItems((prev) => prev.filter((c) => c.id !== id));
+      }
+    } catch {
+      alert('Failed to delete cinema frame');
+    }
+  };
+
+  const handleToggleCinemaItem = async (id: string, currentActive: boolean) => {
+    try {
+      const res = await fetch(`/api/admin/cinema-scroll/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_active: !currentActive }),
+      });
+      const data = await res.json();
+      if (data.success && data.item) {
+        setCinemaItems((prev) => prev.map((c) => (c.id === id ? data.item : c)));
+      }
+    } catch {
+      alert('Failed to update status');
+    }
   };
 
   return (
@@ -286,6 +681,8 @@ export function AdminDashboardClient({
             { id: 'orders', name: `Orders (${orders.length})`, icon: ShoppingBag },
             { id: 'inventory', name: 'Stock & Inventory', icon: History },
             { id: 'categories', name: `Categories (${categories.length})`, icon: Layers },
+            { id: 'hero', name: `Hero Banners (${heroBanners.length})`, icon: SlidersHorizontal },
+            { id: 'cinema', name: `Cinema Scroll (${cinemaItems.length})`, icon: Film },
             { id: 'enquiries', name: `Enquiries (${enquiries.length})`, icon: Mail },
             { id: 'audit', name: 'Security Audit Logs', icon: Shield },
           ].map((tab) => {
@@ -297,7 +694,7 @@ export function AdminDashboardClient({
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
                   isActive
-                    ? 'bg-brand-pink text-pure-white shadow-subtle'
+                    ? 'bg-brand-pink text-white shadow-subtle'
                     : 'text-text-secondary hover:text-text-primary hover:bg-pure-white/60'
                 }`}
               >
@@ -446,7 +843,7 @@ export function AdminDashboardClient({
 
               <button
                 onClick={openNewProductModal}
-                className="w-full sm:w-auto px-4 py-2.5 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 shadow-subtle"
+                className="w-full sm:w-auto px-4 py-2.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 shadow-subtle"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add New Piece</span>
@@ -755,6 +1152,202 @@ export function AdminDashboardClient({
         )}
 
         {/* =====================================================================
+            TAB: HERO BANNERS MANAGEMENT
+            ===================================================================== */}
+        {activeTab === 'hero' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-3xl bg-pure-white border border-border-soft shadow-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-text-primary">
+                  Homepage Hero Banners ({heroBanners.length})
+                </h3>
+                <p className="text-xs sm:text-sm text-text-secondary mt-1">
+                  These high-resolution promotional banners scroll from right to left at the top of the homepage.
+                </p>
+              </div>
+              <button
+                onClick={openNewHeroBannerModal}
+                className="px-4 py-2.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 shadow-subtle"
+              >
+                <Plus className="w-4 h-4 text-white" />
+                <span className="text-white font-semibold">Add New Slide</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {heroBanners.map((banner) => (
+                <div
+                  key={banner.id}
+                  className="rounded-2xl bg-pure-white border border-border-soft overflow-hidden shadow-subtle flex flex-col justify-between"
+                >
+                  <div className="relative aspect-[16/9] w-full bg-black">
+                    <Image
+                      src={banner.image_url}
+                      alt={banner.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
+                    <div className="absolute top-3 left-3 flex gap-2">
+                      {banner.badge && (
+                        <span className="px-2.5 py-1 rounded-full bg-brand-pink text-white text-[10px] font-bold uppercase tracking-wider">
+                          {banner.badge}
+                        </span>
+                      )}
+                      <span className="px-2 py-1 rounded-full bg-black/60 text-white text-[10px] font-mono">
+                        Order: {banner.display_order}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-3 left-3 right-3 text-white">
+                      <h4 className="font-serif text-lg font-bold text-white drop-shadow">
+                        {banner.title}
+                      </h4>
+                      {banner.subtitle && (
+                        <p className="text-xs text-cream-warm line-clamp-1 drop-shadow">
+                          {banner.subtitle}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-4 flex items-center justify-between border-t border-border-soft bg-cream-warm/20 text-xs">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleToggleHeroBanner(banner.id, banner.is_active)}
+                        className={`px-3 py-1 rounded-full font-semibold text-[11px] transition-colors ${
+                          banner.is_active
+                            ? 'bg-green-100 text-green-800 border border-green-300'
+                            : 'bg-gray-100 text-gray-600 border border-gray-300'
+                        }`}
+                      >
+                        {banner.is_active ? 'Active' : 'Inactive'}
+                      </button>
+                      <span className="text-text-secondary truncate max-w-[160px]">
+                        Link: {banner.button_link || '/shop'}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => openEditHeroBannerModal(banner)}
+                        className="p-1.5 hover:bg-cream-warm rounded-lg text-text-primary transition-colors"
+                        title="Edit Banner"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteHeroBanner(banner.id)}
+                        className="p-1.5 hover:bg-red-50 text-red-600 rounded-lg transition-colors"
+                        title="Delete Banner"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* =====================================================================
+            TAB: CINEMA SCROLL REEL MANAGEMENT
+            ===================================================================== */}
+        {activeTab === 'cinema' && (
+          <div className="space-y-6">
+            <div className="p-6 rounded-3xl bg-pure-white border border-border-soft shadow-subtle flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-text-primary">
+                  Live Cinema Scroll Frames ({cinemaItems.length})
+                </h3>
+                <p className="text-xs sm:text-sm text-text-secondary mt-1">
+                  These panoramic frames continuously glide across the homepage to showcase your newest collections.
+                </p>
+              </div>
+              <button
+                onClick={openNewCinemaItemModal}
+                className="px-4 py-2.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-xl flex items-center gap-1.5 shadow-subtle"
+              >
+                <Plus className="w-4 h-4 text-white" />
+                <span className="text-white font-semibold">Add Cinema Frame</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {cinemaItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="rounded-2xl bg-pure-white border border-border-soft overflow-hidden shadow-subtle flex flex-col justify-between"
+                >
+                  <div className="relative aspect-[16/10] w-full bg-black">
+                    <Image
+                      src={item.image_url}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
+                    <div className="absolute top-3 left-3 flex gap-2">
+                      <span className="px-2.5 py-1 rounded-full bg-black/60 text-gold text-[10px] font-bold uppercase tracking-wider border border-gold/30">
+                        {item.collection_name || 'Haute Jewellery'}
+                      </span>
+                      <span className="px-2 py-1 rounded-full bg-black/60 text-white text-[10px] font-mono">
+                        #{item.display_order}
+                      </span>
+                    </div>
+                    <div className="absolute bottom-3 left-3 right-3 text-white">
+                      <h4 className="font-serif text-base font-bold text-white drop-shadow">
+                        {item.title}
+                      </h4>
+                      {item.subtitle && (
+                        <p className="text-xs text-cream-warm line-clamp-1 drop-shadow">
+                          {item.subtitle}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="p-4 flex items-center justify-between border-t border-border-soft bg-cream-warm/20 text-xs">
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleToggleCinemaItem(item.id, item.is_active)}
+                        className={`px-3 py-1 rounded-full font-semibold text-[11px] transition-colors ${
+                          item.is_active
+                            ? 'bg-green-100 text-green-800 border border-green-300'
+                            : 'bg-gray-100 text-gray-600 border border-gray-300'
+                        }`}
+                      >
+                        {item.is_active ? 'Active' : 'Inactive'}
+                      </button>
+                      <span className="text-text-secondary truncate max-w-[130px]">
+                        {item.link_url}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => openEditCinemaItemModal(item)}
+                        className="p-1.5 hover:bg-cream-warm rounded-lg text-text-primary transition-colors"
+                        title="Edit Frame"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCinemaItem(item.id)}
+                        className="p-1.5 hover:bg-red-50 text-red-600 rounded-lg transition-colors"
+                        title="Delete Frame"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* =====================================================================
             TAB 6: CUSTOMER ENQUIRIES
             ===================================================================== */}
         {activeTab === 'enquiries' && (
@@ -874,7 +1467,7 @@ export function AdminDashboardClient({
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2 text-xs bg-brand-pink text-pure-white rounded-xl font-semibold"
+                  className="flex-1 py-2 text-xs bg-brand-pink text-white rounded-xl font-semibold"
                 >
                   Save Stock
                 </button>
@@ -1102,9 +1695,255 @@ export function AdminDashboardClient({
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 bg-brand-pink text-pure-white rounded-xl font-semibold"
+                  className="flex-1 py-2.5 bg-brand-pink text-white rounded-xl font-semibold"
                 >
                   Save Piece
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Hero Banner Modal */}
+      {heroModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-text-primary/60 backdrop-blur-sm">
+          <div className="bg-pure-white rounded-3xl p-6 sm:p-8 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-4 border border-border-soft shadow-2xl">
+            <h3 className="font-serif text-2xl font-bold text-text-primary">
+              {editingHeroBanner ? 'Edit Hero Banner Slide' : 'Add New Hero Banner Slide'}
+            </h3>
+
+            <form onSubmit={handleSaveHeroBanner} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block font-semibold mb-1">Headline / Offer Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={heroForm.title}
+                  onChange={(e) => setHeroForm({ ...heroForm, title: e.target.value })}
+                  placeholder="e.g. Grand Wedding & Bridal Trousseau Edition"
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Subtitle / Offer Description</label>
+                <input
+                  type="text"
+                  value={heroForm.subtitle}
+                  onChange={(e) => setHeroForm({ ...heroForm, subtitle: e.target.value })}
+                  placeholder="e.g. Handcrafted 24K Micro Gold Polish & Uncut Polki Kundan Sets"
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold mb-1">Offer Badge Tag</label>
+                  <input
+                    type="text"
+                    value={heroForm.badge}
+                    onChange={(e) => setHeroForm({ ...heroForm, badge: e.target.value })}
+                    placeholder="e.g. Limited Festive Offer"
+                    className="w-full p-2.5 border border-border-soft rounded-xl"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">Display Order</label>
+                  <input
+                    type="number"
+                    value={heroForm.display_order}
+                    onChange={(e) => setHeroForm({ ...heroForm, display_order: parseInt(e.target.value) || 1 })}
+                    className="w-full p-2.5 border border-border-soft rounded-xl"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold mb-1">Button Text</label>
+                  <input
+                    type="text"
+                    value={heroForm.button_text}
+                    onChange={(e) => setHeroForm({ ...heroForm, button_text: e.target.value })}
+                    placeholder="e.g. Explore Collections"
+                    className="w-full p-2.5 border border-border-soft rounded-xl"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">Button Destination Link</label>
+                  <input
+                    type="text"
+                    value={heroForm.button_link}
+                    onChange={(e) => setHeroForm({ ...heroForm, button_link: e.target.value })}
+                    placeholder="e.g. /category/bridal-jewellery"
+                    className="w-full p-2.5 border border-border-soft rounded-xl"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">High-Resolution Banner Image URL *</label>
+                <input
+                  type="url"
+                  required
+                  value={heroForm.image_url}
+                  onChange={(e) => setHeroForm({ ...heroForm, image_url: e.target.value })}
+                  placeholder="https://images.unsplash.com/..."
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              {heroForm.image_url && (
+                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-border-soft bg-black">
+                  <Image src={heroForm.image_url} alt="Preview" fill className="object-cover" />
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="hero-active"
+                  checked={heroForm.is_active}
+                  onChange={(e) => setHeroForm({ ...heroForm, is_active: e.target.checked })}
+                  className="w-4 h-4 rounded text-brand-pink"
+                />
+                <label htmlFor="hero-active" className="font-semibold cursor-pointer">
+                  Display this banner slide in the live hero slider
+                </label>
+              </div>
+
+              <div className="flex gap-2 pt-3 border-t border-border-soft">
+                <button
+                  type="button"
+                  onClick={() => setHeroModalOpen(false)}
+                  className="flex-1 py-2.5 border border-border-soft rounded-xl text-text-secondary"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 bg-brand-pink text-white rounded-xl font-semibold"
+                >
+                  Save Banner Slide
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Cinema Scroll Modal */}
+      {cinemaModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-text-primary/60 backdrop-blur-sm">
+          <div className="bg-pure-white rounded-3xl p-6 sm:p-8 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-4 border border-border-soft shadow-2xl">
+            <h3 className="font-serif text-2xl font-bold text-text-primary">
+              {editingCinemaItem ? 'Edit Cinema Scroll Frame' : 'Add New Cinema Scroll Frame'}
+            </h3>
+
+            <form onSubmit={handleSaveCinemaItem} className="space-y-3.5 text-xs">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-semibold mb-1">Collection Tag / Department *</label>
+                  <input
+                    type="text"
+                    required
+                    value={cinemaForm.collection_name}
+                    onChange={(e) => setCinemaForm({ ...cinemaForm, collection_name: e.target.value })}
+                    placeholder="e.g. Royal Chokers"
+                    className="w-full p-2.5 border border-border-soft rounded-xl"
+                  />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">Display Order</label>
+                  <input
+                    type="number"
+                    value={cinemaForm.display_order}
+                    onChange={(e) => setCinemaForm({ ...cinemaForm, display_order: parseInt(e.target.value) || 1 })}
+                    className="w-full p-2.5 border border-border-soft rounded-xl"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Frame Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={cinemaForm.title}
+                  onChange={(e) => setCinemaForm({ ...cinemaForm, title: e.target.value })}
+                  placeholder="e.g. Padmavati Kundan Collection"
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Subtitle / Craft Note</label>
+                <input
+                  type="text"
+                  value={cinemaForm.subtitle}
+                  onChange={(e) => setCinemaForm({ ...cinemaForm, subtitle: e.target.value })}
+                  placeholder="e.g. Uncut Polki & Hydro Emeralds"
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Destination Link *</label>
+                <input
+                  type="text"
+                  required
+                  value={cinemaForm.link_url}
+                  onChange={(e) => setCinemaForm({ ...cinemaForm, link_url: e.target.value })}
+                  placeholder="e.g. /category/kundan-jewellery"
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">High-Resolution Image URL *</label>
+                <input
+                  type="url"
+                  required
+                  value={cinemaForm.image_url}
+                  onChange={(e) => setCinemaForm({ ...cinemaForm, image_url: e.target.value })}
+                  placeholder="https://images.unsplash.com/..."
+                  className="w-full p-2.5 border border-border-soft rounded-xl"
+                />
+              </div>
+
+              {cinemaForm.image_url && (
+                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-border-soft bg-black">
+                  <Image src={cinemaForm.image_url} alt="Preview" fill className="object-cover" />
+                </div>
+              )}
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="cinema-active"
+                  checked={cinemaForm.is_active}
+                  onChange={(e) => setCinemaForm({ ...cinemaForm, is_active: e.target.checked })}
+                  className="w-4 h-4 rounded text-brand-pink"
+                />
+                <label htmlFor="cinema-active" className="font-semibold cursor-pointer">
+                  Display this frame in the live cinema reel
+                </label>
+              </div>
+
+              <div className="flex gap-2 pt-3 border-t border-border-soft">
+                <button
+                  type="button"
+                  onClick={() => setCinemaModalOpen(false)}
+                  className="flex-1 py-2.5 border border-border-soft rounded-xl text-text-secondary"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 bg-brand-pink text-white rounded-xl font-semibold"
+                >
+                  Save Cinema Frame
                 </button>
               </div>
             </form>

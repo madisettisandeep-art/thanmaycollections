@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { X, Heart, ShoppingBag, MessageCircle, ShieldCheck, Truck, Sparkles } from 'lucide-react';
+import { X, Heart, ShoppingBag, MessageCircle, ShieldCheck, Truck } from 'lucide-react';
 import { Product } from '@/types';
 import { formatPrice } from '@/lib/utils/formatters';
 import { useCart } from '@/lib/store/cart-store';
@@ -78,7 +78,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
               sizes="(max-width: 768px) 100vw, 50vw"
             />
             {hasDiscount && (
-              <span className="absolute top-3 left-3 px-2.5 py-1 text-xs font-bold text-pure-white bg-brand-pink rounded-full shadow-sm">
+              <span className="absolute top-3 left-3 px-2.5 py-1 text-xs font-bold text-white bg-brand-pink rounded-full shadow-sm">
                 Save {discountPercent}%
               </span>
             )}
@@ -170,17 +170,17 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock_quantity <= 0}
-                className="flex-1 py-3 px-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-sm rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                className="flex-1 py-3 px-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-sm rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               >
-                <ShoppingBag className="w-4 h-4" />
-                <span>Add to Bag</span>
+                <ShoppingBag className="w-4 h-4 text-white" />
+                <span className="text-white font-semibold">Add to Bag</span>
               </button>
 
               {/* Wishlist Toggle */}
               <button
                 onClick={() => toggleItem(product)}
                 className={`p-3 rounded-xl border border-border-soft transition-colors ${
-                  inWishlist ? 'bg-brand-pink text-pure-white border-brand-pink' : 'hover:bg-cream-warm text-text-primary'
+                  inWishlist ? 'bg-brand-pink text-white border-brand-pink' : 'hover:bg-cream-warm text-text-primary'
                 }`}
                 aria-label="Wishlist"
               >

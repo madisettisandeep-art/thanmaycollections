@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Search, Heart, ShoppingBag, Menu, X, ChevronDown, Sparkles } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
 import { useCart } from '@/lib/store/cart-store';
 import { useWishlist } from '@/lib/store/wishlist-store';
 import { SearchModal } from './SearchModal';
@@ -96,7 +96,7 @@ export function Header() {
             </div>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+            <nav className="hidden lg:flex items-center space-x-3 xl:space-x-6 text-xs xl:text-sm">
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href;
 
@@ -183,7 +183,7 @@ export function Header() {
               >
                 <Heart className="w-5 h-5" />
                 {totalWishlist > 0 && (
-                  <span className="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold text-pure-white bg-brand-pink rounded-full shadow-subtle animate-fadeIn">
+                  <span className="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold text-white bg-brand-pink rounded-full shadow-subtle animate-fadeIn">
                     {totalWishlist}
                   </span>
                 )}
@@ -198,7 +198,7 @@ export function Header() {
               >
                 <ShoppingBag className="w-5 h-5" />
                 {totalQuantity > 0 && (
-                  <span className="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold text-pure-white bg-brand-pink rounded-full shadow-subtle animate-fadeIn">
+                  <span className="absolute top-1 right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold text-white bg-brand-pink rounded-full shadow-subtle animate-fadeIn">
                     {totalQuantity}
                   </span>
                 )}

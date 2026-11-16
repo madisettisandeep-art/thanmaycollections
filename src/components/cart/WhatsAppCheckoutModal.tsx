@@ -271,7 +271,7 @@ export function WhatsAppCheckoutModal({ isOpen, onClose }: WhatsAppCheckoutModal
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-70"
+              className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-70"
             >
               {isLoading ? (
                 <>

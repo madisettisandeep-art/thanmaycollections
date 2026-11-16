@@ -122,7 +122,7 @@ export default function TrackOrderPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-xs rounded-xl shadow-subtle flex items-center justify-center gap-2 transition-all disabled:opacity-70"
+            className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-xs rounded-xl shadow-subtle flex items-center justify-center gap-2 transition-all disabled:opacity-70"
           >
             {isLoading ? (
               <>
@@ -219,7 +219,7 @@ export default function TrackOrderPage() {
               href={conciergeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-pure-white text-xs font-semibold shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-semibold shadow-sm transition-all"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Ask Concierge on WhatsApp</span>

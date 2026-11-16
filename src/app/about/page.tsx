@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Sparkles, Heart, ShieldCheck, ArrowRight, Award } from 'lucide-react';
+import { Heart, ShieldCheck, ArrowRight, Award } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -84,7 +84,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 rounded-3xl bg-pure-white border border-border-soft shadow-subtle space-y-3">
               <div className="w-12 h-12 rounded-2xl bg-brand-pink8 flex items-center justify-center text-brand-pink">
-                <Sparkles className="w-6 h-6" />
+                <Award className="w-6 h-6" />
               </div>
               <h3 className="font-serif text-xl font-bold text-text-primary">Authentic Weight & Polish</h3>
               <p className="text-xs text-text-secondary leading-relaxed">
@@ -126,10 +126,10 @@ export default function AboutPage() {
         <div className="pt-2">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-brand-pink hover:bg-brand-pink2 text-pure-white text-xs font-semibold rounded-full shadow-subtle"
+            className="inline-flex items-center gap-2 px-8 py-3.5 bg-brand-pink hover:bg-brand-pink2 text-white text-xs font-semibold rounded-full shadow-subtle"
           >
-            <span>Explore Catalogue</span>
-            <ArrowRight className="w-4 h-4" />
+            <span className="text-white font-semibold">Explore Catalogue</span>
+            <ArrowRight className="w-4 h-4 text-white" />
           </Link>
         </div>
       </div>

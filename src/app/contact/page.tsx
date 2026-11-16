@@ -79,7 +79,7 @@ export default function ContactPage() {
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-pure-white text-xs font-semibold rounded-xl shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-xl shadow-sm transition-all"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Chat on WhatsApp (+91 98765 43210)</span>
@@ -200,7 +200,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-xs rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-70"
+                className="w-full py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-xs rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-70"
               >
                 {isLoading ? (
                   <>

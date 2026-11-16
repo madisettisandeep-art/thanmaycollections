@@ -88,3 +88,35 @@
 .bg-pink-soft-gradient {
   background: linear-gradient(180deg, #FFF5E9 0%, #FFF9F2 50%, #A55A85 100%);
 }
+
+/* Infinite Smooth Announcement Ticker Animation */
+@keyframes announcementMarquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-announcement-ticker {
+  display: flex;
+  width: max-content;
+  animation: announcementMarquee 28s linear infinite;
+}
+
+.animate-announcement-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Cinema Reel Continuous Glide Animation */
+@keyframes cinemaReel {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-cinema-reel {
+  display: flex;
+  width: max-content;
+  animation: cinemaReel 45s linear infinite;
+}
+
+.animate-cinema-reel:hover {
+  animation-play-state: paused;
+}

@@ -11,7 +11,6 @@ import {
   Truck,
   ShieldCheck,
   RotateCcw,
-  Sparkles,
   Maximize2,
   X,
   Share2,
@@ -104,12 +103,12 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             {/* Badges */}
             <div className="absolute top-4 left-4 z-10 flex flex-col gap-2 pointer-events-none">
               {product.is_new_arrival && (
-                <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-pure-white bg-brand-pink rounded-full shadow-sm">
+                <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white bg-brand-pink rounded-full shadow-sm">
                   New Arrival
                 </span>
               )}
               {hasDiscount && (
-                <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-pure-white bg-brand-pink2 rounded-full shadow-sm">
+                <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white bg-brand-pink2 rounded-full shadow-sm">
                   Save {discountPercent}%
                 </span>
               )}
@@ -244,17 +243,17 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <button
                 onClick={() => addItem(product, quantity)}
                 disabled={product.stock_quantity <= 0}
-                className="flex-1 py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-pure-white font-semibold text-sm rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                className="flex-1 py-3.5 px-4 bg-brand-pink hover:bg-brand-pink2 text-white font-semibold text-sm rounded-xl shadow-subtle hover:shadow-card flex items-center justify-center gap-2 transition-all disabled:opacity-50"
               >
-                <ShoppingBag className="w-4 h-4" />
-                <span>Add to Shopping Bag</span>
+                <ShoppingBag className="w-4 h-4 text-white" />
+                <span className="text-white font-semibold">Add to Shopping Bag</span>
               </button>
 
               {/* Wishlist Button */}
               <button
                 onClick={() => toggleItem(product)}
                 className={`p-3.5 rounded-xl border border-border-soft transition-colors ${
-                  inWishlist ? 'bg-brand-pink text-pure-white border-brand-pink' : 'hover:bg-cream-warm text-text-primary'
+                  inWishlist ? 'bg-brand-pink text-white border-brand-pink' : 'hover:bg-cream-warm text-text-primary'
                 }`}
                 aria-label="Wishlist"
               >
@@ -266,10 +265,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             <button
               onClick={handleBuyNow}
               disabled={product.stock_quantity <= 0}
-              className="w-full py-3.5 px-4 bg-text-primary hover:bg-black text-pure-white font-semibold text-sm rounded-xl shadow-subtle flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+              className="w-full py-3.5 px-4 bg-text-primary hover:bg-black text-white font-semibold text-sm rounded-xl shadow-subtle flex items-center justify-center gap-2 transition-all disabled:opacity-50"
             >
-              <Send className="w-4 h-4" />
-              <span>Buy Now via WhatsApp ({formatPrice(activePrice * quantity)})</span>
+              <Send className="w-4 h-4 text-white" />
+              <span className="text-white font-semibold">Buy Now via WhatsApp ({formatPrice(activePrice * quantity)})</span>
             </button>
 
             {/* Direct WhatsApp Enquiry */}
